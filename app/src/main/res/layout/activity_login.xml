@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -71,7 +71,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/New_Registrattion"
+                android:id="@+id/New_Registration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Login_Button"
@@ -81,14 +81,25 @@
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/reset_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/New_Registration"
+                android:layout_marginTop="25dp"
+                android:layout_centerHorizontal="true"
+                android:text="Forgot Password?"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"/>
+
             <ProgressBar
                 android:id="@+id/progress_Bar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/New_Registrattion"
+                android:layout_below="@+id/reset_password"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="125dp"
+                android:layout_marginTop="75dp"
                 android:visibility="invisible" />
 
         </RelativeLayout>
