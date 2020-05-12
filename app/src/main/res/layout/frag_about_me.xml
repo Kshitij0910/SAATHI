@@ -1,19 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_login_register">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/dob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/darker_gray"
-        android:hint="Date of Birth"
-        android:padding="10dp"
-        android:textSize="24sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_login_register">
+
+            <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/input_field"
+            android:hint="Full Name"
+            android:drawableLeft="@drawable/ic_name"
+            android:drawablePadding="16dp"
+            android:padding="10dp"
+            android:textSize="24sp"/>
+
+
+            <TextView
+                android:id="@+id/dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_dob"
+                android:drawablePadding="16dp"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:text="Date of Birth"/>
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dob"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_phone_number"
+                android:ems="10"
+                android:inputType="phone"
+                android:drawablePadding="16dp"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:hint="Phone Number"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bld_grp"
+                android:layout_below="@id/phone"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_field"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:text="Blood Group"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bld_grp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_field"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:hint="Major illness"/>
+
+        </RelativeLayout>
 
 
 
@@ -21,4 +93,4 @@
 
 
 
-</RelativeLayout>
+</ScrollView>
