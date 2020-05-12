@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -41,6 +43,11 @@ public class AboutMeFragment extends Fragment  implements DatePickerDialog.OnDat
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
+
+
+
+
+
         return view;
 
 

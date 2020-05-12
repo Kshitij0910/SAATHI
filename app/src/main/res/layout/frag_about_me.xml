@@ -8,10 +8,39 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_login_register">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/layout_head"
+                android:background="@drawable/images"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:src="@drawable/user"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/load_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="114dp"
+                android:visibility="invisible"/>
+
+
+
+
             <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_head"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -40,6 +69,8 @@
                 android:textSize="24sp"
                 android:text="Date of Birth"/>
 
+
+
             <EditText
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
@@ -58,7 +89,7 @@
                 android:textSize="24sp"
                 android:hint="Phone Number"/>
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/bld_grp"
@@ -70,9 +101,10 @@
                 android:background="@drawable/input_field"
                 android:padding="10dp"
                 android:textSize="24sp"
-                android:text="Blood Group"/>
+                android:hint="Blood Group"/>
 
             <EditText
+                android:id="@+id/illness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bld_grp"
@@ -84,6 +116,65 @@
                 android:padding="10dp"
                 android:textSize="24sp"
                 android:hint="Major illness"/>
+
+            <EditText
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_field"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@id/illness"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:hint="Residential Address"
+                android:drawableLeft="@drawable/ic_address"
+                android:drawablePadding="16dp"/>
+
+            <EditText
+                android:id="@+id/pincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/add"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_address"
+                android:drawablePadding="16dp"
+                android:hint="Pin Code" />
+
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pincode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="10dp"
+                android:textSize="24sp"
+                android:drawableLeft="@drawable/ic_city"
+                android:drawablePadding="16dp"
+                android:background="@drawable/input_field"
+                android:hint="City"/>
+
+
+
+
+
+
+
+
+
 
         </RelativeLayout>
 
