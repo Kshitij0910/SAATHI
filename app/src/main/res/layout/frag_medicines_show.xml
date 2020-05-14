@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_register">
+
+    <Button
+        android:id="@+id/capture_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ripple_effect_2"
+        android:text="CAPTURE and UPLOAD MEDICINES"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="24sp"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp"/>
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/my_medicine"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:elevation="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/my_medicine"
+        android:background="@drawable/view_profile"
+        android:hint="MY PRESCRIPTION"
+        android:textSize="24sp"
+        android:padding="10dp"
+        android:id="@+id/my_prescription"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"/>
+
+
+
+</RelativeLayout>

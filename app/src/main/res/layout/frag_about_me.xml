@@ -5,8 +5,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_login_register">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="match_parent"
@@ -33,24 +32,58 @@
                 android:layout_marginTop="114dp"
                 android:visibility="invisible"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_head"
+                android:id="@+id/edit_btn"
+                android:background="@drawable/view_profile_button"
+                android:textSize="24sp"
+                android:padding="10dp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:elevation="20dp"
+                android:text="EDIT PROFILE"
+                android:layout_alignParentRight="true"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/display"
+                android:textSize="18sp"
+                android:layout_below="@id/edit_btn"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/view_profile"/>
+
+            <Button
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/display"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:background="@android:color/black"
+                android:padding="10dp"
+                android:text="SAVE/LOAD PROFILE"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="24sp" />
 
 
 
             <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_head"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/input_field"
-            android:hint="Full Name"
-            android:drawableLeft="@drawable/ic_name"
-            android:drawablePadding="16dp"
-            android:padding="10dp"
-            android:textSize="24sp"/>
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/save_btn"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_field"
+                android:hint="Full Name"
+                android:drawableLeft="@drawable/ic_name"
+                android:drawablePadding="16dp"
+                android:padding="10dp"
+                android:textSize="24sp"/>
 
 
             <TextView
@@ -172,11 +205,24 @@
 
 
 
-
-
-
-
         </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

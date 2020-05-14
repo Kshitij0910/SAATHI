@@ -26,7 +26,8 @@
                 android:text="AUTHENTICATION"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="30sp"
-                app:fontFamily="@font/aclonica" />
+                app:fontFamily="@font/aclonica"
+                android:elevation="20dp"/>
 
             <EditText
                 android:id="@+id/email"
@@ -77,10 +78,11 @@
                 android:layout_below="@+id/confirm_password"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
-                android:background="@android:color/black"
+                android:background="@drawable/ripple_effect"
                 android:text="REGISTER"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:elevation="20dp"/>
 
             <TextView
                 android:id="@+id/Login_user"
