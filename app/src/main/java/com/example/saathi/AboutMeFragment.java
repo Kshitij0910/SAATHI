@@ -3,9 +3,14 @@ package com.example.saathi;
 
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +18,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
 import com.example.saathi.model.UserProfile;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -36,9 +53,11 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
     EditText name, phnNbr, bldGrp, illness, address,pinCode, city;
     Button saveBtn;
     Realm realm;
-
-
+    de.hdodenhof.circleimageview.CircleImageView profileImg;
     TextView display;
+    StorageReference mStorageReference;
+    ProgressBar loadImg;
+    FirebaseAuth fAuth;
 
 
 
@@ -46,6 +65,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +81,19 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
         pinCode=view.findViewById(R.id.pincode);
         city=view.findViewById(R.id.city);
         saveBtn=view.findViewById(R.id.save_btn);
+        profileImg=view.findViewById(R.id.profile_image);
+        loadImg=view.findViewById(R.id.load_image);
+
+        mStorageReference= FirebaseStorage.getInstance().getReference();
+         fAuth=FirebaseAuth.getInstance();
+
+         StorageReference profileRef= mStorageReference.child("users/"+ Objects.requireNonNull(fAuth.getCurrentUser()).getUid()+"/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImg);
+            }
+        });
 
 
         Log.d(TAG, "onCreateView: View initialisation done!");
@@ -100,6 +133,15 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
 
 
 
+            }
+        });
+
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open gallery
+                Intent openGalleryIntent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent, 1000);
             }
         });
 
@@ -173,6 +215,49 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1000){
+            if(resultCode== Activity.RESULT_OK){
+                Uri imgUri=data.getData();
+                //profileImg.setImageURI(imgUri);
+                uploadImgToFirebase(imgUri);
+
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void uploadImgToFirebase(Uri imgUri){
+        //upload image to firebase storage.
+        final StorageReference fileRef=mStorageReference.child("users/"+ Objects.requireNonNull(fAuth.getCurrentUser()).getUid()+"/profile.jpg");
+        fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                loadImg.setVisibility(View.VISIBLE);
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Picasso.get().load(uri).into(profileImg);
+
+                        Toast.makeText(getActivity(), "Profile Photo Uploaded!", Toast.LENGTH_SHORT).show();
+                        loadImg.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "Upload Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }
 

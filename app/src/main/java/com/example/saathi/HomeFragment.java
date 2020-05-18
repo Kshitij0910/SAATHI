@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 public class HomeFragment extends Fragment {
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                FragmentTransaction fr=getFragmentManager().beginTransaction();
+                FragmentTransaction fr=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
                 fr.replace(R.id.fragment_container, new MedicinesFragment());
                 fr.commit();
 
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                FragmentTransaction fr_=getFragmentManager().beginTransaction();
+                FragmentTransaction fr_= getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
                 fr_.replace(R.id.fragment_container, new ReportsFragment());
                 fr_.commit();
             }

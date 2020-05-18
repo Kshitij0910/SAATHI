@@ -5,52 +5,163 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+
+import static android.app.Activity.RESULT_OK;
 
 public class MedicinesShowFragment extends Fragment {
-
+    private static final String TAG = "MedicinesShowFragment";
     public static final int CAMERA_PERMISSION_REQ=1000;
     private Button capture;
     ImageView medicine;
     EditText prescription;
+    Button uploadPrescription;
+    TextView viewUpload;
+
+    ProgressBar load;
+
+    String currentPhotoPath;
+    StorageReference imgStorageReference;
+    FirebaseAuth fAuth;
+
+    DatabaseReference prescriptionRef, imgDatabaseReference;
+    private StorageTask mUploadTask;
+    private Uri contentUri;
+    File f;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_medicines_show, container, false);
+
+        imgStorageReference= FirebaseStorage.getInstance().getReference("Prescription");
+        imgDatabaseReference=FirebaseDatabase.getInstance().getReference("Prescription");
+        fAuth=FirebaseAuth.getInstance();
+        prescriptionRef= FirebaseDatabase.getInstance().getReference("Prescription");
+
         capture=view.findViewById(R.id.capture_photo);
         medicine=view.findViewById(R.id.my_medicine);
         prescription=view.findViewById(R.id.my_prescription);
+        load=view.findViewById(R.id.uploading_image);
+        uploadPrescription=view.findViewById(R.id.upload_prescription);
+        viewUpload=view.findViewById(R.id.view_upload);
+
         capture.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                init();
+                if (mUploadTask !=null && mUploadTask.isInProgress()){
+                    Toast.makeText(getActivity(), "Upload in Progress!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    init();
+                }
+
             }
         });
 
 
 
+         uploadPrescription.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                load.setVisibility(View.VISIBLE);
+                 writePrescription();
+             }
+         });
+
+         viewUpload.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 openMedicinesViewFragment();
+             }
+         });
+
+
+
+
+
         return view;
     }
+
+    //Methods required for uploading medicines.
+
+    private void writePrescription(){
+        String prescriptionTxt=prescription.getText().toString();
+        if (!TextUtils.isEmpty(prescriptionTxt)){
+            String id=prescriptionRef.push().getKey();
+
+            Prescription myPrescription=new Prescription(id, prescriptionTxt);
+
+            prescriptionRef.child("users/" +fAuth.getCurrentUser().getUid()).child(id).setValue(myPrescription);
+            load.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "Your Prescription has been uploaded!",Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+            load.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "Please write down your medicine prescription.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Conditions on SDK for requesting permission
+    private void init(){
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            //No permission needed.
+            dispatchTakePictureIntent();
+        }
+        else{
+            handlePermission();
+        }
+    }
+
+    //To request permission.
     private void handlePermission(){
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED){
-            openCamera();
+            dispatchTakePictureIntent();
         }
         else{
             //Request permission.
@@ -58,7 +169,7 @@ public class MedicinesShowFragment extends Fragment {
         }
 
     }
-
+    //To check request
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
@@ -77,28 +188,15 @@ public class MedicinesShowFragment extends Fragment {
                         }
                     }
                     else {
-                        openCamera();
+                        dispatchTakePictureIntent();
                     }
                 }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void init(){
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
-            //No permission needed.
-            openCamera();
-        }
-        else{
-            handlePermission();
-        }
-    }
 
-    private void openCamera(){
-        Intent cameraIntent=new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivity(cameraIntent);
-    }
-
+    //Dialog Box to request open settings
     private void showSettingsAlert() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle("Alert");
@@ -134,4 +232,118 @@ public class MedicinesShowFragment extends Fragment {
         i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         context.startActivity(i);
     }
+
+
+    //To upload image
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            //super.onActivityResult(requestCode, resultCode, data);
+
+            load.setVisibility(View.VISIBLE);
+
+            if(requestCode==CAMERA_PERMISSION_REQ){
+                if(resultCode==RESULT_OK) {
+                     f=new File(currentPhotoPath);
+                    medicine.setImageURI(Uri.fromFile(f));
+
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    contentUri=Uri.fromFile(f);
+                    mediaScanIntent.setData(contentUri);
+                    getActivity().sendBroadcast(mediaScanIntent);
+
+                    uploadImageToFirebase(f.getName(), contentUri);
+
+                }
+            }
+    }
+
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            //...
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CAMERA_PERMISSION_REQ);
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void uploadImageToFirebase(String name, final Uri contentUri){
+
+        final StorageReference imgPath=imgStorageReference.child("users/" + Objects.requireNonNull(fAuth.getCurrentUser()).getUid()).child("Prescription/"+name);
+        mUploadTask= imgPath.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                imgPath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "onSuccess: Uploaded Image Url is"+uri.toString());
+
+                    }
+
+
+                });
+                load.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "Your Medicines are uploaded!", Toast.LENGTH_SHORT).show();
+
+                Upload upload=new Upload(taskSnapshot.toString());
+                String uploadId=imgDatabaseReference.push().getKey();
+                imgDatabaseReference.child("users/").child(fAuth.getCurrentUser().getUid()).child(uploadId).setValue(upload);
+
+            }
+
+
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "Upload Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void openMedicinesViewFragment(){
+        FragmentTransaction fr7=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
+        fr7.replace(R.id.fragment_container, new MedicinesViewFragment());
+        fr7.commit();
+    }
 }
+
+
+
