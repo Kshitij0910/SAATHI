@@ -4,7 +4,7 @@
     <gradient
         android:angle="270"
         android:startColor="@android:color/darker_gray"
-        android:endColor="@color/colorPrimary"/>
+        android:endColor="#F57C00"/>
 
     <padding
         android:bottom="7dp"
@@ -14,7 +14,7 @@
 
     <stroke
         android:width="2dp"
-        android:color="@android:color/black"/>
+        android:color="@android:color/holo_orange_dark"/>
     <corners
         android:topRightRadius="0dp"
         android:bottomLeftRadius="0dp"

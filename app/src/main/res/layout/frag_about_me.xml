@@ -1,72 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/about_me_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/layout_head"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/image"
+            android:gravity="bottom" />
+
+        <TextView
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/layout_head"
+
+            android:background="#FFA000" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/user"
+            app:civ_border_color="#F57F17"
+            app:civ_border_width="2dp" />
+
+        <ProgressBar
+            android:id="@+id/load_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="114dp"
+            android:visibility="invisible" />
+
+
+        <TextView
+            android:id="@+id/display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_head"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/view_profile"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/drop_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/display"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:drawableRight="@drawable/ic_arrow_drop_down" />
+
+        <TextView
+            android:id="@+id/drop_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/display"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:drawableRight="@drawable/ic_arrow_drop_up"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/display"
+            android:layout_marginTop="50dp"
+            android:background="#FFA000" />
+
 
         <RelativeLayout
+            android:id="@+id/edit_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/layout_head"
-                android:background="@drawable/images"/>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/user"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#00BCD4"/>
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/load_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="114dp"
-                android:visibility="invisible"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_head"
-                android:id="@+id/edit_btn"
-                android:background="@drawable/view_profile_button"
-                android:textSize="24sp"
-                android:padding="10dp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:elevation="20dp"
-                android:text="EDIT PROFILE"
-                android:layout_alignParentRight="true"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/display"
-                android:textSize="18sp"
-                android:layout_below="@id/edit_btn"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/view_profile"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/edit_profile"
+            android:gravity="bottom"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/save_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/display"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
-                android:background="@android:color/black"
+                android:background="@drawable/ripple_effect"
                 android:padding="10dp"
-                android:text="SAVE/LOAD PROFILE"
+                android:text="SAVE CHANGES"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="24sp" />
-
 
 
             <EditText
@@ -74,16 +113,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/save_btn"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="top"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/input_field"
-                android:hint="Full Name"
                 android:drawableLeft="@drawable/ic_name"
                 android:drawablePadding="16dp"
+                android:hint="Full Name"
                 android:padding="10dp"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
 
             <TextView
@@ -92,16 +132,15 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/input_field"
                 android:drawableLeft="@drawable/ic_dob"
                 android:drawablePadding="16dp"
                 android:padding="10dp"
-                android:textSize="24sp"
-                android:text="Date of Birth"/>
-
+                android:text="Date of Birth"
+                android:textSize="24sp" />
 
 
             <EditText
@@ -110,31 +149,31 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dob"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/input_field"
                 android:drawableLeft="@drawable/ic_phone_number"
-                android:ems="10"
-                android:inputType="phone"
                 android:drawablePadding="16dp"
+                android:ems="10"
+                android:hint="Phone Number"
+                android:inputType="phone"
                 android:padding="10dp"
-                android:textSize="24sp"
-                android:hint="Phone Number"/>
+                android:textSize="24sp" />
 
             <EditText
+                android:id="@+id/bld_grp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/bld_grp"
                 android:layout_below="@id/phone"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/input_field"
+                android:hint="Blood Group"
                 android:padding="10dp"
-                android:textSize="24sp"
-                android:hint="Blood Group"/>
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/illness"
@@ -142,47 +181,47 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bld_grp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/input_field"
+                android:hint="Major illness"
                 android:padding="10dp"
-                android:textSize="24sp"
-                android:hint="Major illness"/>
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/input_field"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_below="@id/illness"
-                android:padding="10dp"
-                android:textSize="24sp"
-                android:hint="Residential Address"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_field"
                 android:drawableLeft="@drawable/ic_address"
-                android:drawablePadding="16dp"/>
+                android:drawablePadding="16dp"
+                android:hint="Residential Address"
+                android:padding="10dp"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/pincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/add"
-                android:layout_marginTop="25dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:ems="10"
-                android:inputType="number"
-                android:padding="10dp"
-                android:textSize="24sp"
                 android:background="@drawable/input_field"
                 android:drawableLeft="@drawable/ic_address"
                 android:drawablePadding="16dp"
-                android:hint="Pin Code" />
+                android:ems="10"
+                android:hint="Pin Code"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/city"
@@ -190,44 +229,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pincode"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:padding="10dp"
-                android:textSize="24sp"
+                android:background="@drawable/input_field"
                 android:drawableLeft="@drawable/ic_city"
                 android:drawablePadding="16dp"
-                android:background="@drawable/input_field"
-                android:hint="City"/>
-
-
-
-
-
+                android:hint="City"
+                android:padding="10dp"
+                android:textSize="24sp" />
 
         </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </RelativeLayout>
 </ScrollView>

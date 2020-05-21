@@ -69,9 +69,11 @@ public class MedicinesShowFragment extends Fragment {
     DatabaseReference prescriptionRef, imgDatabaseReference;
     private StorageTask mUploadTask;
     private Uri contentUri;
-    File f;
+
+    String fName;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MedicinesShowFragment extends Fragment {
         imgStorageReference= FirebaseStorage.getInstance().getReference("Prescription");
         imgDatabaseReference=FirebaseDatabase.getInstance().getReference("Prescription");
         fAuth=FirebaseAuth.getInstance();
-        prescriptionRef= FirebaseDatabase.getInstance().getReference("Prescription");
+        //prescriptionRef= FirebaseDatabase.getInstance().getReference("Prescription");
 
         capture=view.findViewById(R.id.capture_photo);
         medicine=view.findViewById(R.id.my_medicine);
@@ -93,13 +95,10 @@ public class MedicinesShowFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (mUploadTask !=null && mUploadTask.isInProgress()){
-                    Toast.makeText(getActivity(), "Upload in Progress!", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    init();
-                }
 
+                init();
+
+                capture.setBackgroundResource(R.drawable.captured);
             }
         });
 
@@ -109,7 +108,14 @@ public class MedicinesShowFragment extends Fragment {
              @Override
              public void onClick(View v) {
                 load.setVisibility(View.VISIBLE);
-                 writePrescription();
+                // writePrescription();
+                 if (mUploadTask !=null && mUploadTask.isInProgress()){
+                     Toast.makeText(getActivity(), "Upload in Progress!", Toast.LENGTH_SHORT).show();
+                 }
+                 else{
+                     uploadImageToFirebase(fName, contentUri);
+                 }
+
              }
          });
 
@@ -129,23 +135,7 @@ public class MedicinesShowFragment extends Fragment {
 
     //Methods required for uploading medicines.
 
-    private void writePrescription(){
-        String prescriptionTxt=prescription.getText().toString();
-        if (!TextUtils.isEmpty(prescriptionTxt)){
-            String id=prescriptionRef.push().getKey();
 
-            Prescription myPrescription=new Prescription(id, prescriptionTxt);
-
-            prescriptionRef.child("users/" +fAuth.getCurrentUser().getUid()).child(id).setValue(myPrescription);
-            load.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Your Prescription has been uploaded!",Toast.LENGTH_SHORT).show();
-
-        }
-        else{
-            load.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Please write down your medicine prescription.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     //Conditions on SDK for requesting permission
     private void init(){
@@ -241,11 +231,11 @@ public class MedicinesShowFragment extends Fragment {
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             //super.onActivityResult(requestCode, resultCode, data);
 
-            load.setVisibility(View.VISIBLE);
+
 
             if(requestCode==CAMERA_PERMISSION_REQ){
                 if(resultCode==RESULT_OK) {
-                     f=new File(currentPhotoPath);
+                    File f=new File(currentPhotoPath);
                     medicine.setImageURI(Uri.fromFile(f));
 
                     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -253,7 +243,9 @@ public class MedicinesShowFragment extends Fragment {
                     mediaScanIntent.setData(contentUri);
                     getActivity().sendBroadcast(mediaScanIntent);
 
-                    uploadImageToFirebase(f.getName(), contentUri);
+                    fName=f.getName();
+
+
 
                 }
             }
@@ -313,6 +305,9 @@ public class MedicinesShowFragment extends Fragment {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.d(TAG, "onSuccess: Uploaded Image Url is"+uri.toString());
+                        Upload upload=new Upload(uri.toString(), prescription.getText().toString());
+                        String uploadId=imgDatabaseReference.push().getKey();
+                        imgDatabaseReference.child("users/").child(fAuth.getCurrentUser().getUid()).child(uploadId).setValue(upload);
 
                     }
 
@@ -321,9 +316,7 @@ public class MedicinesShowFragment extends Fragment {
                 load.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Your Medicines are uploaded!", Toast.LENGTH_SHORT).show();
 
-                Upload upload=new Upload(taskSnapshot.toString());
-                String uploadId=imgDatabaseReference.push().getKey();
-                imgDatabaseReference.child("users/").child(fAuth.getCurrentUser().getUid()).child(uploadId).setValue(upload);
+
 
             }
 

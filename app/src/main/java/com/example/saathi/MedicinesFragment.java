@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,12 +25,16 @@ public class MedicinesFragment extends Fragment {
     Button goto_medicines, goto_reports;
 
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_medicines, container,false);
 
         imgbounce=AnimationUtils.loadAnimation(getActivity(), R.anim.imgbounce);
+
+
 
 
         img=view.findViewById(R.id.img_medicine);
