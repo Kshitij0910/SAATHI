@@ -101,7 +101,7 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getActivity(),"Press and Hold for further actions!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

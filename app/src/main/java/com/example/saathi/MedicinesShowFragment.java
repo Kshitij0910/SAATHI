@@ -108,7 +108,7 @@ public class MedicinesShowFragment extends Fragment {
              @Override
              public void onClick(View v) {
                 load.setVisibility(View.VISIBLE);
-                // writePrescription();
+
                  if (mUploadTask !=null && mUploadTask.isInProgress()){
                      Toast.makeText(getActivity(), "Upload in Progress!", Toast.LENGTH_SHORT).show();
                  }
@@ -325,6 +325,7 @@ public class MedicinesShowFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                load.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Upload Failed!", Toast.LENGTH_SHORT).show();
             }
         });

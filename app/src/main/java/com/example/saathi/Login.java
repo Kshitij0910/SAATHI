@@ -33,15 +33,15 @@ public class Login extends AppCompatActivity {
     FirebaseAuth fAuth;
     ProgressBar progressBar;
 
-    ActionBar actionBar;
+    //ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        actionBar=getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2738A5")));
+      //  actionBar=getSupportActionBar();
+        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2738A5")));
 
         emailId=findViewById(R.id.email);
         password=findViewById(R.id.password);

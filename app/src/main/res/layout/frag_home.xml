@@ -9,72 +9,83 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/paper"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/paper" />
 
-    <TextView
-        android:id="@+id/medicines"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="125dp"
-        android:text="1)    My Medicines."
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="cursive" />
+        <TextView
+            android:id="@+id/medicines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="125dp"
+            android:text="1)    My Medicines."
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
 
-    <TextView
-        android:id="@+id/reports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="25dp"
-        android:layout_below="@id/medicines"
-        android:text="2)    My Reports."
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="cursive" />
+        <TextView
+            android:id="@+id/reports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/medicines"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="2)    My Reports."
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
 
-    <TextView
-        android:id="@+id/walk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/reports"
-        android:text="3)    Go for a walk."
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="cursive" />
+        <TextView
+            android:id="@+id/map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reports"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="3)    Places near me."
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
 
-    <TextView
-        android:id="@+id/food"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="25dp"
-        android:layout_below="@id/walk"
-        android:text="4)    Eat healthy."
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="cursive" />
+        <TextView
+            android:id="@+id/walk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/map"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="4)    Go for a walk."
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
 
-    <TextView
-        android:id="@+id/yoga"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_below="@id/food"
-        android:layout_marginTop="25dp"
-        android:text="5)    Do Yoga"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="cursive" />
+        <TextView
+            android:id="@+id/food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/walk"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="5)    Eat healthy."
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
+
+        <TextView
+            android:id="@+id/yoga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/food"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="6)    Do Yoga"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="cursive" />
 
     </RelativeLayout>
-
 
 
 </ScrollView>

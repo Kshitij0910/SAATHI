@@ -158,7 +158,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
 
         info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
                 "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
-                "PHONE NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
+                "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
                 "BLOOD GROUP: "+dataBldGrp.get(dataBldGrp.size()-1)+"\n\n"+
                 "MAJOR ILLNESS: "+dataIllness.get(dataIllness.size()-1)+"\n\n"+
                 "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+
@@ -204,7 +204,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
 
                 info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
                      "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
-                     "PHONE NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
+                     "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
                      "BLOOD GROUP: "+dataBldGrp.get(dataBldGrp.size()-1)+"\n\n"+
                      "MAJOR ILLNESS: "+dataIllness.get(dataIllness.size()-1)+"\n\n"+
                      "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+

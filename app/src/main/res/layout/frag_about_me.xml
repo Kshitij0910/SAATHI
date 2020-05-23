@@ -156,7 +156,7 @@
                 android:drawableLeft="@drawable/ic_phone_number"
                 android:drawablePadding="16dp"
                 android:ems="10"
-                android:hint="Phone Number"
+                android:hint="Emergency Contact Number"
                 android:inputType="phone"
                 android:padding="10dp"
                 android:textSize="24sp" />

@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
         View view=inflater.inflate(R.layout.frag_home, container, false);
         TextView medicines=view.findViewById(R.id.medicines);
         TextView reports=view.findViewById(R.id.reports);
+        TextView map=view.findViewById(R.id.map);
 
 
 
@@ -50,6 +51,15 @@ public class HomeFragment extends Fragment {
                 FragmentTransaction fr_= getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
                 fr_.replace(R.id.fragment_container, new ReportsFragment());
                 fr_.commit();
+            }
+        });
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fr__= getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr__.replace(R.id.fragment_container, new GETFragment());
+                fr__.commit();
             }
         });
         return view;

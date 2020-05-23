@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,6 +52,7 @@ public class ReportsShowFragment extends Fragment {
 
     ProgressBar loadReport;
 
+    private static final String TAG = "ReportsShowFragment";
 
     public static final int FILE_PERMISSION_REQ=1000;
     @Nullable
@@ -76,6 +82,7 @@ public class ReportsShowFragment extends Fragment {
         });
 
         upload.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 loadReport.setVisibility(View.VISIBLE);
@@ -182,28 +189,33 @@ public class ReportsShowFragment extends Fragment {
             Toast.makeText(getActivity(), "Please select your Report File!", Toast.LENGTH_SHORT).show();
         }
 
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void uploadPdf( final Uri pdfUri){
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void uploadPdf(final Uri pdfUri){
 
 
-        final String fileName=System.currentTimeMillis()+".pdf";
-        final String fileName1=System.currentTimeMillis()+"";
+        //final String fileName=System.currentTimeMillis()+".pdf";
+        final String fileName=System.currentTimeMillis()+"";
 
-        final StorageReference pdfPath= mStorageRef.child("users/"+fAuth.getCurrentUser().getUid()).child(fileName);
+        final StorageReference pdfPath= mStorageRef.child("users/"+ Objects.requireNonNull(fAuth.getCurrentUser()).getUid()).child("Reports/"+fileName);
         pdfPath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 pdfPath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        String url=uri.toString();
-                        mDatabaseRef.child("users/"+fAuth.getCurrentUser().getUid()).child(fileName1).setValue(url);
+                        Log.d(TAG, "onSuccess: Uploaded File url is:" +uri.toString());
+                        UploadReport uploadReport=new UploadReport(fileName, uri.toString());
+
+                        String uploadRepId=mDatabaseRef.push().getKey();
+                        mDatabaseRef.child("users/"+fAuth.getCurrentUser().getUid()).child(uploadRepId).setValue(uploadReport);
                     }
                 });
-                Toast.makeText(getActivity(), "Your Reports are Uploaded!", Toast.LENGTH_SHORT);
                 loadReport.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "Your Reports are Uploaded!", Toast.LENGTH_SHORT).show();
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {
