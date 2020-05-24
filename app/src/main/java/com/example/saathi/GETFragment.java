@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.ApiKey;
 import com.google.android.gms.common.internal.GoogleApiAvailabilityCache;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -55,7 +56,10 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     private LocationRequest locationRequest;
     private Location lastlocation;
     private Marker currentLocationmMarker;
+
     public static final int REQUEST_LOCATION_CODE = 99;
+
+
     int PROXIMITY_RADIUS = 10000;
     double latitude,longitude;
 
@@ -203,7 +207,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&types="+nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+"AIzaSyDJVwXpGagmnJ3MA_M6H9Vy5rZ8AxNQkMo");
+        googlePlaceUrl.append("&key="+"YOUR_API_KEY");
 
         Log.d("GETFragment", "url = "+googlePlaceUrl.toString());
 
@@ -235,8 +239,8 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        markerOptions.title("You are HERE!");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));

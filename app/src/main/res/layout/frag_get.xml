@@ -84,7 +84,7 @@
             android:layout_below="@+id/places"
             android:background="@android:color/holo_orange_dark" />
 
-        <FrameLayout xmlns:map="http://schemas.android.com/apk/res-auto"
+        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
