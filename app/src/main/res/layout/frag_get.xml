@@ -19,16 +19,18 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/search_field"
+            android:drawableRight="@drawable/ic_search_black"
+            android:drawablePadding="10dp"
             android:padding="10dp"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/search_location"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/search"
@@ -36,12 +38,13 @@
             android:padding="10dp" />
 
         <LinearLayout
+            android:id="@+id/places"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/enter_location"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="60dp">
 
             <Button
@@ -77,7 +80,8 @@
             android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="175dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/places"
             android:background="@android:color/holo_orange_dark" />
 
         <FrameLayout xmlns:map="http://schemas.android.com/apk/res-auto"

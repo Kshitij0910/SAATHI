@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +53,11 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
-    private Location lastLocation;
-    private Marker currentLocMarker;
-
-    public static final int REQUEST_LOCATION_CODE=100;
-
-    int PROXIMITY_RADIUS=10000;
-    double latitude, longitude;
+    private Location lastlocation;
+    private Marker currentLocationmMarker;
+    public static final int REQUEST_LOCATION_CODE = 99;
+    int PROXIMITY_RADIUS = 10000;
+    double latitude,longitude;
 
     Button search, hospital, park;
     EditText enterLocation;
@@ -125,21 +124,15 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         mMap = googleMap;
         //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
-
-            }
-        }
-        else {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-
-
-
     }
+
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -147,8 +140,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         GETNearbyPlacesData getNearbyPlacesData=new GETNearbyPlacesData();
 
         switch (v.getId()) {
-            case R.id.search_location: {
-                //EditText enterLocation = v.findViewById(R.id.enter_location);
+            case R.id.search_location:
                 String location = enterLocation.getText().toString();
                 List<Address> addressList = null;
                 MarkerOptions mo = new MarkerOptions();
@@ -174,21 +166,18 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
                     }
                 }
-            }
+
             break;
 
             case R.id.search_hospital:
                 mMap.clear();
-                String hospital="hospital";
-                String url=getUrl(latitude, longitude, hospital);
-
-                dataTransfer[0]=mMap;
-                dataTransfer[1]=url;
-
+                String hospital = "hospital";
+                String url = getUrl(latitude, longitude, hospital);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(getActivity(), "Showing Nearby Hospitals...", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getActivity(), "Showing Nearby Hospitals...", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.search_park:
@@ -201,7 +190,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(getActivity(), "Showing Nearby Parks...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Showing Nearby Parks...", Toast.LENGTH_SHORT).show();
 
                 break;
         }
@@ -209,12 +198,15 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
 
     private String getUrl(double latitude, double longitude, String nearbyPlace){
-        StringBuilder googlePlaceUrl=new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlaceUrl.append("location"+latitude+","+longitude);
+        StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlaceUrl.append("location="+latitude+","+longitude);
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
-        googlePlaceUrl.append("&type="+nearbyPlace);
+        googlePlaceUrl.append("&types="+nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
         googlePlaceUrl.append("&key="+"AIzaSyDJVwXpGagmnJ3MA_M6H9Vy5rZ8AxNQkMo");
+
+        Log.d("GETFragment", "url = "+googlePlaceUrl.toString());
+
 
         return googlePlaceUrl.toString();
     }
@@ -232,21 +224,27 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation=location;
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        lastlocation = location;
 
-        if (currentLocMarker != null){
-            currentLocMarker.remove();
+        if (currentLocationmMarker != null){
+            currentLocationmMarker.remove();
         }
-
-        LatLng latLng=new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions=new MarkerOptions();
+        Log.d("lat = ",""+latitude);
+        LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("You are HERE!");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-        currentLocMarker=mMap.addMarker(markerOptions);
+        markerOptions.title("Current Location");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+
+        if(client != null)
+        {
+            LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
+        }
 
         if (client != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
@@ -259,7 +257,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest=new LocationRequest();
 
-        locationRequest.setInterval(1000);
+        locationRequest.setInterval(100);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 

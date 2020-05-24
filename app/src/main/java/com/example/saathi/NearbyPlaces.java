@@ -34,12 +34,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class NearbyPlaces extends FragmentActivity implements OnMapReadyCallback,
+public class NearbyPlaces extends FragmentActivity /*implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener*/ {
 
-    private GoogleMap mMap;
+    /*private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
@@ -48,20 +48,20 @@ public class NearbyPlaces extends FragmentActivity implements OnMapReadyCallback
     public static final int REQUEST_LOCATION_CODE=100;
 
     int PROXIMITY_RADIUS=10000;
-    double latitude, longitude;
+    double latitude, longitude;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_places);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+        /*if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkLocationPermission();
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
     }
 
 
@@ -76,7 +76,7 @@ public class NearbyPlaces extends FragmentActivity implements OnMapReadyCallback
      */
 
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
             case REQUEST_LOCATION_CODE:
@@ -262,7 +262,7 @@ public class NearbyPlaces extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
+    }*/
 }
 
 
