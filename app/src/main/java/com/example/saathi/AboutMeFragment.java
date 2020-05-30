@@ -30,6 +30,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -50,6 +52,8 @@ import java.util.Objects;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.SyncCredentials;
+import io.realm.SyncUser;
 
 
 public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -88,6 +92,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.frag_about_me, container, false);
+
 
         display=view.findViewById(R.id.display);
         selectDate=view.findViewById(R.id.dob);

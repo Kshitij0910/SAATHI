@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -58,12 +60,12 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     private Marker currentLocationmMarker;
 
     public static final int REQUEST_LOCATION_CODE = 99;
-
+    public static final String MY_PLACES_KEY=BuildConfig.ApiKey;
 
     int PROXIMITY_RADIUS = 10000;
     double latitude,longitude;
 
-    Button search, hospital, park;
+    Button search, hospital, park, police, chemist;
     EditText enterLocation;
 
     public GETFragment(){
@@ -76,9 +78,14 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         View view=inflater.inflate(R.layout.frag_get, container, false);
         mapFragment=(SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
 
+
+
+
         search=view.findViewById(R.id.search_location);
         hospital=view.findViewById(R.id.search_hospital);
         park=view.findViewById(R.id.search_park);
+        police=view.findViewById(R.id.search_police);
+        chemist=view.findViewById(R.id.search_chemist);
         enterLocation = view.findViewById(R.id.enter_location);
 
 
@@ -97,7 +104,8 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         search.setOnClickListener(this);
         hospital.setOnClickListener(this);
         park.setOnClickListener(this);
-
+        police.setOnClickListener(this);
+        chemist.setOnClickListener(this);
 
 
         return view;
@@ -197,6 +205,36 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
                 Toast.makeText(getActivity(), "Showing Nearby Parks...", Toast.LENGTH_SHORT).show();
 
                 break;
+
+            case R.id.search_police:
+                mMap.clear();
+                String policestn="police";
+                url=getUrl(latitude, longitude, policestn);
+
+                dataTransfer[0]=mMap;
+                dataTransfer[1]=url;
+
+
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(getActivity(), "Showing Nearby Police Stations...", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.search_chemist:
+                mMap.clear();
+                String chemist="pharmacy";
+                url=getUrl(latitude, longitude, chemist);
+
+                dataTransfer[0]=mMap;
+                dataTransfer[1]=url;
+
+
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(getActivity(), "Showing Nearby Chemists...", Toast.LENGTH_SHORT).show();
+
+                break;
+
+
         }
     }
 
@@ -207,7 +245,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&types="+nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+"YOUR_API_KEY");
+        googlePlaceUrl.append("&key="+ MY_PLACES_KEY);
 
         Log.d("GETFragment", "url = "+googlePlaceUrl.toString());
 

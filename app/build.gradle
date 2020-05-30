@@ -14,14 +14,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
-            buildConfigField ('String' , "ApiKey" , MY_API_KEY)
+        debug {
+            buildConfigField('String', "ApiKey", MY_API_KEY)
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField ('String' , "ApiKey" , MY_API_KEY)
+            buildConfigField('String', "ApiKey", MY_API_KEY)
         }
+    }
+    realm{
+        syncEnabled = true
     }
 }
 
@@ -46,6 +49,9 @@ dependencies {
 
     //Picasso Library
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Lottie Animations
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
 
 }

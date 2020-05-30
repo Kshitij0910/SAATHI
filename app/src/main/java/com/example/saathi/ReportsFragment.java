@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,6 +27,10 @@ public class ReportsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_reports, container,false);
+
+
+
+
 
         imgbounce=AnimationUtils.loadAnimation(getActivity(), R.anim.imgbounce);
 
@@ -87,18 +93,20 @@ public class ReportsFragment extends Fragment {
         goto_medicines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr3=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr3.replace(R.id.fragment_container, new MedicinesShowFragment());
-                fr3.commit();
+                FragmentTransaction fr7=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr7.replace(R.id.fragment_container, new MedicinesShowFragment());
+                fr7.addToBackStack(null);
+                fr7.commit();
             }
         });
 
         goto_reports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr4=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr4.replace(R.id.fragment_container, new ReportsShowFragment());
-                fr4.commit();
+                FragmentTransaction fr8=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr8.replace(R.id.fragment_container, new ReportsShowFragment());
+                fr8.addToBackStack(null);
+                fr8.commit();
             }
         });
 

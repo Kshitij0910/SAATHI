@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/about_me_bg">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -21,6 +22,7 @@
             android:background="@drawable/search_field"
             android:drawableRight="@drawable/ic_search_black"
             android:drawablePadding="10dp"
+
             android:padding="10dp"
             android:textSize="24sp" />
 
@@ -34,55 +36,83 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/search"
-
+            android:elevation="20dp"
             android:padding="10dp" />
 
-        <LinearLayout
-            android:id="@+id/places"
+        <HorizontalScrollView
+            android:id="@+id/quick_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/enter_location"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="60dp">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/enter_location">
 
-            <Button
-                android:id="@+id/search_hospital"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/places"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/search_field"
-                android:drawableRight="@drawable/ic_local_hospital"
-                android:drawablePadding="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp">
 
-                android:padding="10dp"
-                android:text="HOSPITALS"
-                android:textSize="24sp" />
+                <Button
+                    android:id="@+id/search_hospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_field"
+                    android:drawableRight="@drawable/ic_local_hospital"
+                    android:drawablePadding="10dp"
+                    android:elevation="20dp"
+                    android:padding="10dp"
+                    android:text="HOSPITALS"
+                    android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/search_park"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_field"
-                android:drawableRight="@drawable/ic_park"
-                android:drawablePadding="10dp"
+                <Button
+                    android:id="@+id/search_park"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_field"
+                    android:drawableRight="@drawable/ic_park"
+                    android:drawablePadding="10dp"
+                    android:elevation="20dp"
+                    android:padding="10dp"
+                    android:text="PARKS"
+                    android:textSize="24sp" />
 
-                android:padding="10dp"
-                android:text="PARKS"
-                android:textSize="24sp" />
+                <Button
+                    android:id="@+id/search_police"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_field"
+                    android:drawableRight="@drawable/ic_police"
+                    android:drawablePadding="10dp"
+                    android:elevation="20dp"
+                    android:padding="10dp"
+                    android:text="POLICE STATION"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/search_chemist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_field"
+                    android:drawableRight="@drawable/ic_local_pharmacy"
+                    android:drawablePadding="10dp"
+                    android:elevation="20dp"
+                    android:padding="10dp"
+                    android:text="CHEMIST"
+                    android:textSize="24sp" />
 
 
+            </LinearLayout>
 
-
-        </LinearLayout>
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_below="@+id/quick_search"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/places"
-            android:background="@android:color/holo_orange_dark" />
+            android:background="@android:color/holo_orange_dark"
+            android:elevation="20dp" />
 
         <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
@@ -94,6 +124,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
+            android:elevation="20dp"
             tools:context=".NearbyPlaces" />
     </RelativeLayout>
 </ScrollView>

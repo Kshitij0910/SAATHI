@@ -15,6 +15,18 @@
             android:layout_height="match_parent"
             tools:context=".Register">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/anim_unlock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lottie_enableMergePathsForKitKatAndAbove="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                app:lottie_loop="false"
+                app:lottie_fileName="unlock.json"
+                app:lottie_autoPlay="false"
+                android:elevation="20dp"/>
+
 
             <TextView
                 android:id="@+id/Login"
@@ -29,11 +41,25 @@
                 app:fontFamily="@font/aclonica"
                 android:elevation="20dp"/>
 
+            <TextView
+                android:id="@+id/new_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Login"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="CREATE YOUR ACCOUNT"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                app:fontFamily="@font/aclonica"
+                android:elevation="20dp"/>
+
+
             <EditText
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Login"
+                android:layout_below="@+id/new_account"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:background="@android:color/darker_gray"
@@ -41,7 +67,8 @@
                 android:hint="Email-id"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:elevation="20dp"/>
 
             <EditText
                 android:id="@+id/password"
@@ -55,7 +82,8 @@
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:elevation="20dp"/>
 
             <EditText
                 android:id="@+id/confirm_password"
@@ -69,7 +97,8 @@
                 android:hint="Confirm Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:elevation="20dp"/>
 
             <Button
                 android:id="@+id/Register_Button"
@@ -78,7 +107,8 @@
                 android:layout_below="@+id/confirm_password"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/ripple_effect"
+                android:padding="10dp"
+                android:background="@drawable/ripple_effect_2"
                 android:text="REGISTER"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="24sp"
@@ -93,7 +123,8 @@
                 android:layout_marginTop="25dp"
                 android:text="Already registered? Login Here!"
                 android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:elevation="20dp"/>
 
             <ProgressBar
                 android:id="@+id/progress_Bar"

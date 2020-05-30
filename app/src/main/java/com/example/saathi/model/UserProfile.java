@@ -84,17 +84,5 @@ public class UserProfile extends RealmObject {
         this.city = city;
     }
 
-    @Override
-    public String toString() {
-        return "UserProfile{" +
-                "fullName='" + fullName + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", bloodGrp='" + bloodGrp + '\'' +
-                ", illness='" + illness + '\'' +
-                ", address='" + address + '\'' +
-                ", pin='" + pin + '\'' +
-                ", city='" + city + '\'' +
-                '}';
-    }
+
 }

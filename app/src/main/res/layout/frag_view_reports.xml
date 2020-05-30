@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/reports_bg">
 
+
     <ProgressBar
         android:id="@+id/load_upload_2"
         android:layout_width="wrap_content"

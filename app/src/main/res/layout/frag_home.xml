@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/softboard">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -84,6 +85,16 @@
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/anim_doctors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="350dp"
+            android:elevation="20dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="doctors.json"
+            app:lottie_loop="true" />
 
     </RelativeLayout>
 

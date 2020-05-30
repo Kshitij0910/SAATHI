@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,12 +20,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import io.realm.ObjectServerError;
+import io.realm.Realm;
+import io.realm.SyncConfiguration;
+import io.realm.SyncCredentials;
+import io.realm.SyncUser;
+import static com.example.saathi.Constants.AUTH_URL;
 
 public class Login extends AppCompatActivity {
 
@@ -32,6 +42,8 @@ public class Login extends AppCompatActivity {
     TextView registerBtn, resetPassword;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
+
+    LottieAnimationView unlock;
 
     //ActionBar actionBar;
 
@@ -43,6 +55,8 @@ public class Login extends AppCompatActivity {
       //  actionBar=getSupportActionBar();
         //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2738A5")));
 
+
+
         emailId=findViewById(R.id.email);
         password=findViewById(R.id.password);
         login=findViewById(R.id.Login_Button);
@@ -51,11 +65,13 @@ public class Login extends AppCompatActivity {
         progressBar=findViewById(R.id.progress_Bar);
         resetPassword=findViewById(R.id.reset_password);
 
+        unlock=findViewById(R.id.anim_unlock);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email=emailId.getText().toString().trim();
-                String passWord=password.getText().toString().trim();
+                final String email=emailId.getText().toString().trim();
+                final String passWord=password.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     emailId.setError("PLEASE ENTER YOUR EMAIL-ID TO LOGIN.");
@@ -75,9 +91,48 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            //SyncCredentials credentials=SyncCredentials.usernamePassword(email, passWord, false);
+                            //SyncUser.logInAsync(credentials, AUTH_URL, new SyncUser.Callback<SyncUser>() {
+                              //  @Override
+                                //public void onSuccess(SyncUser syncUser) {
+
+                                  //  Log.d("LOGIN", "onSuccess: User logged in to realm");
+
+                                    //SyncConfiguration syncConfig=syncUser.getDefaultConfiguration();
+                                    ///Realm realmNew=Realm.getInstance(syncConfig);
+
+                                    /*Toast.makeText(Login.this,"Logged in successfully! WELCOME!",Toast.LENGTH_SHORT).show();
+                                    unlock.setVisibility(View.VISIBLE);
+                                    unlock.playAnimation();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        }
+                                    },2000);
+                                }
+
+                               // @Override
+                                //public void onError(ObjectServerError error) {
+                                  //  Log.e("LOGIN", "onError: ", error );
+
+                                }
+                            //});
+                                   */
+
                             Toast.makeText(Login.this,"Logged in successfully! WELCOME!",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            unlock.setVisibility(View.VISIBLE);
+                            unlock.playAnimation();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                }
+                            },2000);
+
+
                         }
+
                         else {
                             Toast.makeText(Login.this,"ERROR! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);

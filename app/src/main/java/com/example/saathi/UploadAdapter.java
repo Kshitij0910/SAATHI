@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,10 +79,9 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("SELECT ACTION");
-            MenuItem doWhatever=menu.add(Menu.NONE, 1, 1, "Do whatever");
-            MenuItem delete=menu.add(Menu.NONE, 2, 2, "Delete");
+            MenuItem delete=menu.add(Menu.NONE, 1, 1, "Delete");
 
-            doWhatever.setOnMenuItemClickListener(this);
+
             delete.setOnMenuItemClickListener(this);
         }
 
@@ -92,10 +92,6 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
                 if (position!=RecyclerView.NO_POSITION){
                    switch (item.getItemId()){
                        case 1:
-                           mListener.onWhateverClick(position);
-                           return true;
-
-                       case 2:
                            mListener.onDeleteClick(position);
                            return true;
                    }
@@ -107,7 +103,8 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
 
     public interface OnItemClickListener{
         void onItemClick(int position);
-        void onWhateverClick(int position);
+
+
         void onDeleteClick(int position);
     }
 

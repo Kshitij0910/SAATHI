@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -59,6 +61,11 @@ public class ReportsShowFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_show_reports, container, false);
+
+
+
+
+
         selectFile=view.findViewById(R.id.file_select);
         file=view.findViewById(R.id.file);
         upload=view.findViewById(R.id.report_upload);
@@ -99,9 +106,10 @@ public class ReportsShowFragment extends Fragment {
         gotoReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr8=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
-                fr8.replace(R.id.fragment_container, new ReportsViewFragment());
-                fr8.commit();
+                FragmentTransaction fr9=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
+                fr9.replace(R.id.fragment_container, new ReportsViewFragment());
+                fr9.addToBackStack(null);
+                fr9.commit();
 
             }
         });

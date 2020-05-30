@@ -36,18 +36,6 @@ public class UploadAdapter2 extends RecyclerView.Adapter<UploadAdapter2.UploadVi
         mReport = uploadReports;
     }
 
-   /* public void update(String name, String url){
-        reportItems.add(name);
-        urls.add(url);
-        notifyDataSetChanged();
-    }*/
-
-    /*public UploadAdapter2(RecyclerView recyclerView, Context Context, ArrayList<String> reportItems, ArrayList<String> urls) {
-        this.recyclerView = recyclerView;
-        this.reportItems=reportItems;
-        this.urls=urls;
-
-    }*/
 
 
 
@@ -79,20 +67,12 @@ public class UploadAdapter2 extends RecyclerView.Adapter<UploadAdapter2.UploadVi
         public TextView textViewReportFile;
         public ImageView bG;
 
+
         public UploadViewHolder2(@NonNull View itemView) {
             super(itemView);
             textViewReportFile = itemView.findViewById(R.id.download_filename);
-            bG=itemView.findViewById(R.id.report_background);
-            /*itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position=recyclerView.getChildLayoutPosition(v);
-                    Intent pdfIntent=new Intent();
-                    pdfIntent.setType(Intent.ACTION_VIEW);
-                    pdfIntent.setData(Uri.parse(urls.get(position)));
-                    mContext.startActivity(pdfIntent);
-                }
-            });*/
+
+
 
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
@@ -111,10 +91,10 @@ public class UploadAdapter2 extends RecyclerView.Adapter<UploadAdapter2.UploadVi
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("SELECT ACTION");
-            MenuItem doWhatever=menu.add(Menu.NONE, 1, 1, "Do whatever");
-            MenuItem delete=menu.add(Menu.NONE, 2, 2, "Delete");
+            //MenuItem notify=menu.add(Menu.NONE, 1, 1, "Set Reminder");
+            MenuItem delete=menu.add(Menu.NONE, 1, 1, "Delete");
 
-            doWhatever.setOnMenuItemClickListener(this);
+            //notify.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
         }
 
@@ -124,11 +104,8 @@ public class UploadAdapter2 extends RecyclerView.Adapter<UploadAdapter2.UploadVi
                 int position=getAdapterPosition();
                 if (position!=RecyclerView.NO_POSITION){
                     switch (item.getItemId()){
-                        case 1:
-                            mListenerRep.onWhateverClick(position);
-                            return true;
 
-                        case 2:
+                        case 1:
                             mListenerRep.onDeleteClick(position);
                             return true;
                     }
@@ -140,7 +117,7 @@ public class UploadAdapter2 extends RecyclerView.Adapter<UploadAdapter2.UploadVi
 
     public interface OnItemClickListener{
         void onItemClick(int position);
-        void onWhateverClick(int position);
+        //void onNotifyClick(int position);
         void onDeleteClick(int position);
     }
     public void setOnItemClickListener(UploadAdapter2.OnItemClickListener listenerRep){

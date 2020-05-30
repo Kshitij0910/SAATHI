@@ -1,19 +1,27 @@
 package com.example.saathi;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,10 +31,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnItemClickListener {
+
+
+public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnItemClickListener, TimePickerDialog.OnTimeSetListener {
+
+
 
     private RecyclerView mRecyclerView;
     private UploadAdapter mAdapter;
@@ -40,10 +54,14 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     private ProgressBar loadUpload;
     FirebaseAuth fAuth;
 
+    FloatingActionButton notification, notificationCancel;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_view_medicines, container, false);
+
 
 
 
@@ -53,6 +71,9 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        notification=view.findViewById(R.id.notification);
+        notificationCancel=view.findViewById(R.id.notification_cancel);
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
@@ -97,6 +118,28 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
                 loadUpload.setVisibility(View.INVISIBLE);
             }
         });
+
+
+
+
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newTimeFragment=new TimePickerFragment();
+                newTimeFragment.setTargetFragment(MedicinesViewFragment.this, 0);
+                newTimeFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+
+
+            }
+        });
+
+        notificationCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelAlarm();
+            }
+        });
     }
 
     @Override
@@ -104,10 +147,7 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
         Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onWhateverClick(int position) {
 
-    }
 
     @Override
     public void onDeleteClick(int position) {
@@ -122,12 +162,55 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
                 Toast.makeText(getActivity(), "Your Medicine has been deleted successfully!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mDatabaseRef.removeEventListener(mDBListener);
+
     }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+
+        Toast.makeText(getActivity(), "REMINDER SET FOR: "+DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime()), Toast.LENGTH_SHORT).show();
+
+        startAlarm(c);
+    }
+
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+    }
+
+    private void cancelAlarm(){
+        AlarmManager alarmManager=(AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.cancel(pendingIntent);
+        Toast.makeText(getActivity(), "REMINDER CANCELLED!", Toast.LENGTH_SHORT).show();
+
+
+
+    }
+
+
+
+
+
+
 }
 

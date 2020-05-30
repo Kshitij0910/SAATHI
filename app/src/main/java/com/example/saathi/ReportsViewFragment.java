@@ -3,6 +3,7 @@ package com.example.saathi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnItemClickListener {
+public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnItemClickListener  {
     private RecyclerView recyclerView;
     private UploadAdapter2 mAdapter2;
 
@@ -41,12 +44,6 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
 
     private ProgressBar loadUpload2;
     FirebaseAuth fAuth;
-
-
-
-
-
-
 
 
     @Nullable
@@ -62,34 +59,37 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView=view.findViewById(R.id.recycler_view_2);
+        recyclerView = view.findViewById(R.id.recycler_view_2);
+
 
         loadUpload2 = view.findViewById(R.id.load_upload_2);
 
-        fAuth = FirebaseAuth.getInstance();
-
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mReport=new ArrayList<>();
+        fAuth = FirebaseAuth.getInstance();
 
-        mAdapter2=new UploadAdapter2(getActivity(), mReport);
+
+        mReport = new ArrayList<>();
+
+        mAdapter2 = new UploadAdapter2(getActivity(), mReport);
         recyclerView.setAdapter(mAdapter2);
-        recyclerView.setVisibility(View.VISIBLE);
 
         mAdapter2.setOnItemClickListener(ReportsViewFragment.this);
 
-        mStorage=FirebaseStorage.getInstance();
-        mDataRef = FirebaseDatabase.getInstance().getReference("Reports/users" + fAuth.getCurrentUser().getUid());
+        mStorage = FirebaseStorage.getInstance();
+        mDataRef = FirebaseDatabase.getInstance().getReference("Reports/users/" + fAuth.getCurrentUser().getUid());
+        Log.d("ReportsViewFragment", "onViewCreated: "+mDataRef);
 
-        mDBListenerRep=mDataRef.addValueEventListener(new ValueEventListener() {
+        mDBListenerRep = mDataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mReport.clear();
 
-                for (DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-                    UploadReport uploadReport=postSnapshot.getValue(UploadReport.class);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UploadReport uploadReport = postSnapshot.getValue(UploadReport.class);
                     uploadReport.setKey(postSnapshot.getKey());
+                    Log.d("ReportsViewFragment", "onDataChange: "+uploadReport.getFileName()+","+uploadReport.getFileUrl()+", "+uploadReport.getKey());
                     mReport.add(uploadReport);
                 }
                 mAdapter2.notifyDataSetChanged();
@@ -144,27 +144,21 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
        loadUpload2.setVisibility(View.INVISIBLE);*/
 
 
-
-
-
-
     }
+
 
     @Override
     public void onItemClick(int position) {
-        //Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
         UploadReport selectedReport=mReport.get(position);
         Intent pdfIntent=new Intent();
-        //pdfIntent.setType(Intent.ACTION_VIEW);
-        //pdfIntent.setData(Uri.parse(selectedReport.getFileUrl()));
+        pdfIntent.setType(Intent.ACTION_VIEW);
+        pdfIntent.setData(Uri.parse(selectedReport.getFileUrl()));
         pdfIntent.setDataAndType(Uri.parse(selectedReport.getFileUrl()),Intent.ACTION_VIEW);
         startActivity(pdfIntent);
     }
 
-    @Override
-    public void onWhateverClick(int position) {
 
-    }
 
     @Override
     public void onDeleteClick(int position) {

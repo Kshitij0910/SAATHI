@@ -27,6 +27,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -73,11 +75,16 @@ public class MedicinesShowFragment extends Fragment {
     String fName;
 
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_medicines_show, container, false);
+
+
+
 
         imgStorageReference= FirebaseStorage.getInstance().getReference("Prescription");
         imgDatabaseReference=FirebaseDatabase.getInstance().getReference("Prescription");
@@ -96,7 +103,9 @@ public class MedicinesShowFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                init();
+                    init();
+
+
 
                 capture.setBackgroundResource(R.drawable.captured);
             }
@@ -108,8 +117,11 @@ public class MedicinesShowFragment extends Fragment {
              @Override
              public void onClick(View v) {
                 load.setVisibility(View.VISIBLE);
-
-                 if (mUploadTask !=null && mUploadTask.isInProgress()){
+                if(contentUri == null){
+                    load.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Please capture an image!", Toast.LENGTH_SHORT).show();
+                }
+                else if (mUploadTask !=null && mUploadTask.isInProgress()){
                      Toast.makeText(getActivity(), "Upload in Progress!", Toast.LENGTH_SHORT).show();
                  }
                  else{
@@ -132,6 +144,9 @@ public class MedicinesShowFragment extends Fragment {
 
         return view;
     }
+
+
+
 
     //Methods required for uploading medicines.
 
@@ -333,10 +348,13 @@ public class MedicinesShowFragment extends Fragment {
     }
 
     private void openMedicinesViewFragment(){
-        FragmentTransaction fr7=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
-        fr7.replace(R.id.fragment_container, new MedicinesViewFragment());
-        fr7.commit();
+        FragmentTransaction fr6=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
+        fr6.replace(R.id.fragment_container, new MedicinesViewFragment());
+        fr6.addToBackStack(null);
+        fr6.commit();
     }
+
+
 }
 
 

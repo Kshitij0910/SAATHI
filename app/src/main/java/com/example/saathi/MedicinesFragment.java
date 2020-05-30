@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,6 +33,9 @@ public class MedicinesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_medicines, container,false);
+
+
+
 
         imgbounce=AnimationUtils.loadAnimation(getActivity(), R.anim.imgbounce);
 
@@ -95,18 +100,20 @@ public class MedicinesFragment extends Fragment {
         goto_medicines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr3=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr3.replace(R.id.fragment_container, new MedicinesShowFragment());
-                fr3.commit();
+                FragmentTransaction fr4=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr4.replace(R.id.fragment_container, new MedicinesShowFragment());
+                fr4.addToBackStack(null);
+                fr4.commit();
             }
         });
 
         goto_reports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr4=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr4.replace(R.id.fragment_container, new ReportsShowFragment());
-                fr4.commit();
+                FragmentTransaction fr5=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr5.replace(R.id.fragment_container, new ReportsShowFragment());
+                fr5.addToBackStack(null);
+                fr5.commit();
             }
         });
         return view;
