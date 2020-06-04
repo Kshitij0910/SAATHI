@@ -23,7 +23,7 @@ android {
             buildConfigField('String', "ApiKey", MY_API_KEY)
         }
     }
-    realm{
+    realm {
         syncEnabled = true
     }
 }

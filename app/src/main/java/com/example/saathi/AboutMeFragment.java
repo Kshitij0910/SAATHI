@@ -30,8 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -52,8 +50,10 @@ import java.util.Objects;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.SyncConfiguration;
 import io.realm.SyncCredentials;
 import io.realm.SyncUser;
+import static com.example.saathi.Constants.REALM_URL;
 
 
 public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -92,6 +92,11 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.frag_about_me, container, false);
+
+        SyncUser user=SyncUser.current();
+        String url=REALM_URL+"/~/UserProfile";
+        final SyncConfiguration config=user.createConfiguration(url).fullSynchronization().build();
+
 
 
         display=view.findViewById(R.id.display);
@@ -148,9 +153,40 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
             }
         });
 
-        realm=Realm.getDefaultInstance();
+
+        Log.d(TAG, "onCreateView: Realm instantiating");
+
+        realm=Realm.getInstance(config);
+        //realm=Realm.getDefaultInstance();
+        /*Realm.getInstanceAsync(config, new Realm.Callback() {
+            @Override
+            public void onSuccess(Realm realm) {
+                RealmHelper helper=new RealmHelper(realm);
+
+                dataName=helper.retrieveName();
+                dataDob=helper.retrieveDob();
+                dataPhn=helper.retrievePhn();
+                dataBldGrp=helper.retrieveBldGrp();
+                dataIllness=helper.retrieveIllness();
+                dataAdd=helper.retrieveAddress();
+                dataPin=helper.retrievePin();
+                dataCity=helper.retrieveCity();
+
+                info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
+                        "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
+                        "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
+                        "BLOOD GROUP: "+dataBldGrp.get(dataBldGrp.size()-1)+"\n\n"+
+                        "MAJOR ILLNESS: "+dataIllness.get(dataIllness.size()-1)+"\n\n"+
+                        "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+
+                        "PIN CODE: "+dataPin.get(dataPin.size()-1)+"\n\n"+
+                        "CITY: "+dataCity.get(dataCity.size()-1);
+
+                display.setText(info);
+            }
+        });*/
+
         final RealmHelper helper=new RealmHelper(realm);
-        //display.setText("");
+
 
         dataName=helper.retrieveName();
         dataDob=helper.retrieveDob();
@@ -160,7 +196,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
         dataAdd=helper.retrieveAddress();
         dataPin=helper.retrievePin();
         dataCity=helper.retrieveCity();
-
+        Log.d(TAG, "onCreateView: RealmHelper retrieved data");
         info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
                 "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
                 "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
@@ -169,13 +205,64 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
                 "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+
                 "PIN CODE: "+dataPin.get(dataPin.size()-1)+"\n\n"+
                 "CITY: "+dataCity.get(dataCity.size()-1);
-
-        display.setText(info);
+        Log.d(TAG, "onClick: Retrieved Data displaying");
+        if(dataName.size() >0)
+            display.setText(info);
+        else
+            display.setText("");
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserProfile userP=new UserProfile();
+                Realm.getInstanceAsync(config, new Realm.Callback() {
+                    @Override
+                    public void onSuccess(Realm realm) {
+                        UserProfile userP=new UserProfile();
+                        userP.setFullName(name.getText().toString());
+                        userP.setDateOfBirth(selectDate.getText().toString());
+                        userP.setPhoneNumber(phnNbr.getText().toString());
+                        userP.setBloodGrp(bldGrp.getText().toString());
+                        userP.setIllness(illness.getText().toString());
+                        userP.setAddress(address.getText().toString());
+                        userP.setPin(pinCode.getText().toString());
+                        userP.setCity(city.getText().toString());
+
+                        RealmHelper helper=new RealmHelper(realm);
+                        helper.save(userP);
+                        name.setText("");
+                        selectDate.setText("");
+                        phnNbr.setText("");
+                        bldGrp.setText("");
+                        illness.setText("");
+                        address.setText("");
+                        pinCode.setText("");
+                        city.setText("");
+
+
+                        dataName=helper.retrieveName();
+                        dataDob=helper.retrieveDob();
+                        dataPhn=helper.retrievePhn();
+                        dataBldGrp=helper.retrieveBldGrp();
+                        dataIllness=helper.retrieveIllness();
+                        dataAdd=helper.retrieveAddress();
+                        dataPin=helper.retrievePin();
+                        dataCity=helper.retrieveCity();
+
+
+                        info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
+                                "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
+                                "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
+                                "BLOOD GROUP: "+dataBldGrp.get(dataBldGrp.size()-1)+"\n\n"+
+                                "MAJOR ILLNESS: "+dataIllness.get(dataIllness.size()-1)+"\n\n"+
+                                "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+
+                                "PIN CODE: "+dataPin.get(dataPin.size()-1)+"\n\n"+
+                                "CITY: "+dataCity.get(dataCity.size()-1);
+                        Log.d(TAG, "onClick: Data stored");
+                        display.setText(info);
+                        Log.d(TAG, "onClick: Data displayed");
+                    }
+                });
+                /*UserProfile userP=new UserProfile();
                 userP.setFullName(name.getText().toString());
                 userP.setDateOfBirth(selectDate.getText().toString());
                 userP.setPhoneNumber(phnNbr.getText().toString());
@@ -216,7 +303,9 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
                      "PIN CODE: "+dataPin.get(dataPin.size()-1)+"\n\n"+
                      "CITY: "+dataCity.get(dataCity.size()-1);
 
+                Log.d(TAG, "onClick: Data stored");
                 display.setText(info);
+                Log.d(TAG, "onClick: Data displayed");*/
 
 
 

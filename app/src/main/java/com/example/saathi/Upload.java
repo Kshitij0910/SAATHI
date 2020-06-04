@@ -6,6 +6,7 @@ public class Upload {
      private String mImageUrl;
      private String mPrescription;
      private String mKey;
+    // private boolean expanded;
 
     public Upload(){
 
@@ -14,7 +15,16 @@ public class Upload {
     public Upload(String ImageUrl, String Prescription) {
         mImageUrl = ImageUrl;
         mPrescription = Prescription;
+        //this.expanded=false;
     }
+
+   /* public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }*/
 
     public String getImageUrl() {
         return mImageUrl;

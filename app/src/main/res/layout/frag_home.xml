@@ -6,22 +6,29 @@
     android:background="@drawable/softboard">
 
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:background="@drawable/paper">
+        <!--
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/paper" />
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/paper" />-->
 
         <TextView
             android:id="@+id/medicines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="125dp"
-            android:text="1)    My Medicines."
+            android:fontFamily="cursive"
+            android:text="  1)   My Medicines."
+
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
@@ -32,8 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/medicines"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="2)    My Reports."
+            android:text="  2)   My Reports."
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
@@ -44,8 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/reports"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="3)    Places near me."
+            android:text="  3)   Places near me."
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
@@ -56,8 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/map"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="4)    Go for a walk."
+            android:text="  >>   Go for a walk."
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
@@ -68,8 +81,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/walk"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="5)    Eat healthy."
+            android:text="  >>   Eat healthy."
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />
@@ -80,8 +95,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/food"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="6)    Do Yoga"
+            android:text="  >>   Do Yoga"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold"
             app:fontFamily="cursive" />

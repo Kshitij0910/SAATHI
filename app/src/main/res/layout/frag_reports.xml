@@ -9,21 +9,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
         <Button
             android:id="@+id/goto_upload_reports"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+
             android:background="@drawable/ripple_effect_2"
             android:elevation="20dp"
             android:padding="10dp"
             android:layout_marginTop="40dp"
-            android:text="ADD REPORTS"
+            android:text="@string/add_reports"
             android:textColor="@android:color/holo_orange_light"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,16 +33,18 @@
             android:id="@+id/goto_upload_medicines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+
             android:background="@drawable/ripple_effect_2"
             android:elevation="20dp"
             android:padding="10dp"
             android:layout_marginTop="40dp"
-            android:text="ADD MEDICINES"
+            android:text="@string/add_medicines"
             android:textColor="@android:color/holo_orange_light"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -90,7 +94,7 @@
             android:layout_height="10dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/dotmenu"
-            android:elevation="20dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.372"

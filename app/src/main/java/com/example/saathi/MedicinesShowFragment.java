@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -73,6 +74,8 @@ public class MedicinesShowFragment extends Fragment {
     private Uri contentUri;
 
     String fName;
+
+
 
 
 
@@ -259,9 +262,9 @@ public class MedicinesShowFragment extends Fragment {
                     getActivity().sendBroadcast(mediaScanIntent);
 
                     fName=f.getName();
-
-
-
+                }
+                else {
+                    capture.setBackgroundResource(R.drawable.capture);
                 }
             }
     }

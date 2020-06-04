@@ -24,13 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 import io.realm.ObjectServerError;
-import io.realm.Realm;
-import io.realm.SyncConfiguration;
+
 import io.realm.SyncCredentials;
 import io.realm.SyncUser;
 
 import static com.example.saathi.Constants.AUTH_URL;
-import static com.example.saathi.Constants.REALM_URL;
+
 
 
 
@@ -38,7 +37,7 @@ public class Register extends AppCompatActivity {
 
     EditText emailId, password, confirmPassword;
     Button register;
-    TextView loginBtn;
+    TextView loginBtn, authView_, createView;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
 
@@ -57,7 +56,8 @@ public class Register extends AppCompatActivity {
 
 
 
-
+        authView_=findViewById(R.id.Login);
+        createView=findViewById(R.id.new_account);
         emailId=findViewById(R.id.email);
         password=findViewById(R.id.password);
         confirmPassword=findViewById(R.id.confirm_password);
@@ -69,7 +69,7 @@ public class Register extends AppCompatActivity {
         fAuth=FirebaseAuth.getInstance();
         progressBar=findViewById(R.id.progress_Bar);
 
-        if(fAuth.getCurrentUser()!=null /*&& SyncUser.current()!=null*/){
+        if(fAuth.getCurrentUser()!=null && SyncUser.current()!=null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
@@ -113,11 +113,19 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            SyncCredentials credentials=SyncCredentials.usernamePassword(email, confirmPassWord, true);
+                            SyncUser.logInAsync(credentials, AUTH_URL, new SyncUser.Callback<SyncUser>() {
+                                @Override
+                                public void onSuccess(SyncUser syncUser) {
+                                    Log.d("REGISTER", "onSuccess: User created in ROS");
+                                    authView_.setVisibility(View.INVISIBLE);
+                                    emailId.setVisibility(View.INVISIBLE);
+                                    password.setVisibility(View.INVISIBLE);
+                                    createView.setVisibility(View.INVISIBLE);
+                                    loginBtn.setVisibility(View.INVISIBLE);
+                                    confirmPassword.setVisibility(View.INVISIBLE);
+                                    register.setVisibility(View.INVISIBLE);
 
-                            //SyncCredentials credentials=SyncCredentials.usernamePassword(email, confirmPassWord, true);
-                            //SyncUser.logInAsync(credentials, AUTH_URL, new SyncUser.Callback<SyncUser>() {
-                                //@Override
-                                //public void onSuccess(SyncUser syncUser) {
                                     Toast.makeText(Register.this,"User successfully created!", Toast.LENGTH_SHORT).show();
                                     unlockReg.setVisibility(View.VISIBLE);
                                     unlockReg.playAnimation();
@@ -127,27 +135,15 @@ public class Register extends AppCompatActivity {
                                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                                         }
                                     },2000);
-                                //}
+                                }
 
-                                /*@Override
+                                @Override
                                 public void onError(ObjectServerError error) {
                                     Log.e("REGISTER", "onError: ",error );
                                 }
                             });
-                              */
-                            //SyncUser user = SyncUser.current();
-                            //String url=REALM_URL+"/~/userRealm";
-                            //SyncConfiguration syncConfig=SyncUser.current().createConfiguration(url).fullSynchronization().build();
-                            //Realm realmNew=Realm.getDefaultInstance();
-                            //Toast.makeText(Register.this,"User successfully created!", Toast.LENGTH_SHORT).show();
-                            //unlockReg.setVisibility(View.VISIBLE);
-                            //unlockReg.playAnimation();
-                            //new Handler().postDelayed(new Runnable() {
-                              //  @Override
-                                //public void run() {
-                                  //  startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                                //}
-                            //},2000);
+
+
 
                         }
                         else{

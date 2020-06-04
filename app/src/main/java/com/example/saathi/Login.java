@@ -28,35 +28,33 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 import io.realm.ObjectServerError;
-import io.realm.Realm;
-import io.realm.SyncConfiguration;
 import io.realm.SyncCredentials;
 import io.realm.SyncUser;
+
 import static com.example.saathi.Constants.AUTH_URL;
 
 public class Login extends AppCompatActivity {
 
     EditText emailId, password;
     Button login;
-    TextView registerBtn, resetPassword;
+    TextView registerBtn, resetPassword, authView;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
 
     LottieAnimationView unlock;
 
-    //ActionBar actionBar;
+    private static final String TAG="LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-      //  actionBar=getSupportActionBar();
-        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2738A5")));
 
 
-
+        authView=findViewById(R.id.Login);
         emailId=findViewById(R.id.email);
         password=findViewById(R.id.password);
         login=findViewById(R.id.Login_Button);
@@ -91,17 +89,21 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            //SyncCredentials credentials=SyncCredentials.usernamePassword(email, passWord, false);
-                            //SyncUser.logInAsync(credentials, AUTH_URL, new SyncUser.Callback<SyncUser>() {
-                              //  @Override
-                                //public void onSuccess(SyncUser syncUser) {
 
-                                  //  Log.d("LOGIN", "onSuccess: User logged in to realm");
+                            SyncCredentials credentials=SyncCredentials.usernamePassword(email, passWord, false);
+                            SyncUser.logInAsync(credentials, AUTH_URL, new SyncUser.Callback<SyncUser>() {
+                                @Override
+                                public void onSuccess(SyncUser syncUser) {
+                                    //User logged
+                                    Log.d(TAG, "onSuccess: User logged in");
+                                    authView.setVisibility(View.INVISIBLE);
+                                    emailId.setVisibility(View.INVISIBLE);
+                                    password.setVisibility(View.INVISIBLE);
+                                    registerBtn.setVisibility(View.INVISIBLE);
+                                    resetPassword.setVisibility(View.INVISIBLE);
+                                    login.setVisibility(View.INVISIBLE);
 
-                                    //SyncConfiguration syncConfig=syncUser.getDefaultConfiguration();
-                                    ///Realm realmNew=Realm.getInstance(syncConfig);
-
-                                    /*Toast.makeText(Login.this,"Logged in successfully! WELCOME!",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this,"Logged in successfully! WELCOME!",Toast.LENGTH_SHORT).show();
                                     unlock.setVisibility(View.VISIBLE);
                                     unlock.playAnimation();
                                     new Handler().postDelayed(new Runnable() {
@@ -112,13 +114,18 @@ public class Login extends AppCompatActivity {
                                     },2000);
                                 }
 
-                               // @Override
-                                //public void onError(ObjectServerError error) {
-                                  //  Log.e("LOGIN", "onError: ", error );
-
+                                @Override
+                                public void onError(ObjectServerError error) {
+                                    //Handle error
+                                    Log.e(TAG, "onError: Uh oh! Something went wrong.",error );
                                 }
-                            //});
-                                   */
+                            });
+                            /*authView.setVisibility(View.INVISIBLE);
+                            emailId.setVisibility(View.INVISIBLE);
+                            password.setVisibility(View.INVISIBLE);
+                            registerBtn.setVisibility(View.INVISIBLE);
+                            resetPassword.setVisibility(View.INVISIBLE);
+                            login.setVisibility(View.INVISIBLE);
 
                             Toast.makeText(Login.this,"Logged in successfully! WELCOME!",Toast.LENGTH_SHORT).show();
                             unlock.setVisibility(View.VISIBLE);
@@ -128,7 +135,7 @@ public class Login extends AppCompatActivity {
                                 public void run() {
                                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                                 }
-                            },2000);
+                            },2000);*/
 
 
                         }

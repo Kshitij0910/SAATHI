@@ -6,4 +6,31 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_nearby_places">Map</string>
+    <string name="authentication">AUTHENTICATION</string>
+    <string name="email_id">Email-id</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="new_here_register_here">New Here? Register Here!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create_your_account">CREATE YOUR ACCOUNT</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">REGISTER</string>
+    <string name="already_registered_login_here">Already registered? Login Here!</string>
+    <string name="add_medicines">ADD MEDICINES</string>
+    <string name="add_reports">ADD REPORTS</string>
+    <string name="upload">UPLOAD</string>
+    <string name="my_prescription">MY PRESCRIPTION</string>
+    <string name="no_file_selected">NO FILE SELECTED</string>
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="emergency_contact_number">Emergency Contact Number</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="residential_address">Residential Address</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="city">City</string>
+    <string name="hospitals">HOSPITALS</string>
+    <string name="parks">PARKS</string>
+    <string name="police_station">POLICE STATION</string>
+    <string name="chemist">CHEMIST</string>
 </resources>

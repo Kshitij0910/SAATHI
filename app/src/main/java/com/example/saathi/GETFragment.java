@@ -3,6 +3,7 @@ package com.example.saathi;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -65,7 +66,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     int PROXIMITY_RADIUS = 10000;
     double latitude,longitude;
 
-    Button search, hospital, park, police, chemist;
+    Button search, hospitalBtn, parkBtn, policeBtn, chemistBtn;
     EditText enterLocation;
 
     public GETFragment(){
@@ -82,10 +83,10 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
 
         search=view.findViewById(R.id.search_location);
-        hospital=view.findViewById(R.id.search_hospital);
-        park=view.findViewById(R.id.search_park);
-        police=view.findViewById(R.id.search_police);
-        chemist=view.findViewById(R.id.search_chemist);
+        hospitalBtn=view.findViewById(R.id.search_hospital);
+        parkBtn=view.findViewById(R.id.search_park);
+        policeBtn=view.findViewById(R.id.search_police);
+        chemistBtn=view.findViewById(R.id.search_chemist);
         enterLocation = view.findViewById(R.id.enter_location);
 
 
@@ -102,10 +103,10 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
 
         search.setOnClickListener(this);
-        hospital.setOnClickListener(this);
-        park.setOnClickListener(this);
-        police.setOnClickListener(this);
-        chemist.setOnClickListener(this);
+        hospitalBtn.setOnClickListener(this);
+        parkBtn.setOnClickListener(this);
+        policeBtn.setOnClickListener(this);
+        chemistBtn.setOnClickListener(this);
 
 
         return view;
@@ -153,6 +154,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
         switch (v.getId()) {
             case R.id.search_location:
+                Toast.makeText(getActivity(), "Searching...", Toast.LENGTH_LONG).show();
                 String location = enterLocation.getText().toString();
                 List<Address> addressList = null;
                 MarkerOptions mo = new MarkerOptions();
@@ -182,6 +184,13 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
             break;
 
             case R.id.search_hospital:
+                hospitalBtn.setBackgroundResource(R.drawable.search_field_clicked);
+                parkBtn.setBackgroundResource(R.drawable.search_field);
+                policeBtn.setBackgroundResource(R.drawable.search_field);
+                chemistBtn.setBackgroundResource(R.drawable.search_field);
+
+
+
                 mMap.clear();
                 String hospital = "hospital";
                 String url = getUrl(latitude, longitude, hospital);
@@ -193,6 +202,13 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
                 break;
 
             case R.id.search_park:
+
+                hospitalBtn.setBackgroundResource(R.drawable.search_field);
+                parkBtn.setBackgroundResource(R.drawable.search_field_clicked);
+                policeBtn.setBackgroundResource(R.drawable.search_field);
+                chemistBtn.setBackgroundResource(R.drawable.search_field);
+
+
                 mMap.clear();
                 String park="park";
                 url=getUrl(latitude, longitude, park);
@@ -207,6 +223,12 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
                 break;
 
             case R.id.search_police:
+
+                hospitalBtn.setBackgroundResource(R.drawable.search_field);
+                parkBtn.setBackgroundResource(R.drawable.search_field);
+                policeBtn.setBackgroundResource(R.drawable.search_field_clicked);
+                chemistBtn.setBackgroundResource(R.drawable.search_field);
+
                 mMap.clear();
                 String policestn="police";
                 url=getUrl(latitude, longitude, policestn);
@@ -221,6 +243,12 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
                 break;
 
             case R.id.search_chemist:
+
+                hospitalBtn.setBackgroundResource(R.drawable.search_field);
+                parkBtn.setBackgroundResource(R.drawable.search_field);
+                policeBtn.setBackgroundResource(R.drawable.search_field);
+                chemistBtn.setBackgroundResource(R.drawable.search_field_clicked);
+
                 mMap.clear();
                 String chemist="pharmacy";
                 url=getUrl(latitude, longitude, chemist);

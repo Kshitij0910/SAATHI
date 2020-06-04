@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -21,13 +22,14 @@ import java.util.List;
 public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadViewHolder> {
     private Context mContext;
     private List<Upload> mUpload;
-    private OnItemClickListener mListener;
-    //private List<Prescription> mPrescription;
 
-    public UploadAdapter(Context context, List<Upload> uploads/*, List<Prescription> prescriptions*/){
+    private OnItemClickListener mListener;
+
+
+    public UploadAdapter(Context context, List<Upload> uploads){
         mContext=context;
         mUpload=uploads;
-      // mPrescription=prescriptions;
+
     }
     @NonNull
     @Override
@@ -42,6 +44,10 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
         //Prescription prescriptionCurrent=mPrescription.get(position);
         holder.textViewPrescription.setText(uploadCurrent.getPrescription());
         Picasso.get().load(uploadCurrent.getImageUrl()).placeholder(R.mipmap.pill_time).fit().centerCrop().into(holder.imgUpload);
+
+        //boolean isExpanded=uploadCurrent.isExpanded();
+        //holder.textViewPrescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
     }
 
     @Override
@@ -54,12 +60,25 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
 
         public TextView textViewPrescription;
         public ImageView imgUpload;
+        //public Button expandBtn;
 
         public UploadViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewPrescription=itemView.findViewById(R.id.view_prescription);
             imgUpload=itemView.findViewById(R.id.image_view_upload);
+            //expandBtn=itemView.findViewById(R.id.expandable_btn);
+
+            /*expandBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Upload upload=mUpload.get(getAdapterPosition());
+                    upload.setExpanded(!upload.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                    //expandBtn.setText("HIDE PRESCRIPTION");
+                }
+            });*/
+
 
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);

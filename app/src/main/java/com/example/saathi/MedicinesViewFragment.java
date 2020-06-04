@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,11 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
+        /*Upload selectedItem=mUpload.get(position);
+        Uri imageUri=Uri.parse(selectedItem.getImageUrl());
+        Intent fullScreenIntent=new Intent(getContext(),NearbyPlaces.class);
+        fullScreenIntent.setData(imageUri);
+        startActivity(fullScreenIntent);*/
     }
 
 

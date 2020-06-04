@@ -13,7 +13,7 @@ public class RealmHelper {
     }
 
     public void save(final UserProfile userProfile){
-        realm.executeTransaction(new Realm.Transaction() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 UserProfile userP=realm.copyToRealm(userProfile);

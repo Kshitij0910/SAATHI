@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/about_me_bg">
+    android:background="@drawable/about_me">
 
 
 
@@ -13,7 +13,7 @@
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".Login">
 
             <com.airbnb.lottie.LottieAnimationView
@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:lottie_enableMergePathsForKitKatAndAbove="true"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:visibility="gone"
                 app:lottie_loop="false"
                 app:lottie_fileName="unlock.json"
@@ -33,11 +33,11 @@
                 android:id="@+id/Login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/anim_unlock"
+
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
                 android:background="@android:color/black"
-                android:text="AUTHENTICATION"
+                android:text="@string/authentication"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="30sp"
                 app:fontFamily="@font/aclonica"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="50dp"
                 android:background="@android:color/darker_gray"
                 android:ems="10"
-                android:hint="Email-id"
+                android:hint="@string/email_id"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textSize="24sp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="25dp"
                 android:background="@android:color/darker_gray"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textSize="24sp"
@@ -82,7 +82,7 @@
                 android:layout_marginTop="40dp"
                 android:padding="10dp"
                 android:background="@drawable/ripple_effect_2"
-                android:text="LOGIN"
+                android:text="@string/login"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="24sp"
                 android:elevation="20dp"/>
@@ -94,7 +94,7 @@
                 android:layout_below="@+id/Login_Button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:text="New Here? Register Here!"
+                android:text="@string/new_here_register_here"
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp"
                 android:elevation="20dp"/>
@@ -106,7 +106,7 @@
                 android:layout_below="@+id/New_Registration"
                 android:layout_marginTop="25dp"
                 android:layout_centerHorizontal="true"
-                android:text="Forgot Password?"
+                android:text="@string/forgot_password"
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp"
                 android:elevation="20dp"/>

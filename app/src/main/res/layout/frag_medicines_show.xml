@@ -6,6 +6,7 @@
     android:background="@drawable/medicines_bg">
 
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,6 +22,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/search_field"
             android:drawableRight="@drawable/ic_go_to"
+            android:drawableEnd="@drawable/ic_go_to"
             android:elevation="20dp" />
 
 
@@ -57,7 +59,7 @@
             android:background="@drawable/ripple_effect_2"
             android:elevation="20dp"
             android:padding="10dp"
-            android:text="UPLOAD"
+            android:text="@string/upload"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="24sp" />
 
@@ -73,7 +75,7 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/view_profile"
             android:elevation="20dp"
-            android:hint="MY PRESCRIPTION"
+            android:hint="@string/my_prescription"
             android:padding="10dp"
             android:textSize="24sp" />
 
