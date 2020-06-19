@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class ReportsFragment extends Fragment {
     ImageView img;
-    View dotmenu;
+    View dotmenu, dotmenu2;
     Button btnPageMedicines, btnPageReports;
     Animation imgbounce;
     Button goto_medicines, goto_reports;
@@ -39,6 +39,7 @@ public class ReportsFragment extends Fragment {
         btnPageMedicines=view.findViewById(R.id.btn_page_medicines);
         btnPageReports=view.findViewById(R.id.btn_page_report);
         dotmenu=view.findViewById(R.id.dotmenu);
+        dotmenu2=view.findViewById(R.id.dotmenu_2);
         goto_reports=view.findViewById(R.id.goto_upload_reports);
         goto_medicines=view.findViewById(R.id.goto_upload_medicines);
 
@@ -61,7 +62,9 @@ public class ReportsFragment extends Fragment {
 
                 btnPageMedicines.animate().scaleY(0.7f).scaleX(0.7f).setDuration(350).start();
                 btnPageReports.animate().scaleY(1).scaleX(1).setDuration(350).start();
-                dotmenu.animate().translationX(0).setDuration(350).setStartDelay(100).start();
+                //dotmenu.animate().translationX(0).setDuration(350).setStartDelay(100).start();
+                dotmenu.setBackgroundResource(R.drawable.dotmenu);
+                dotmenu2.setBackgroundResource(R.drawable.dotmenu_unselected);
 
             }
         });
@@ -85,7 +88,9 @@ public class ReportsFragment extends Fragment {
 
                 btnPageReports.animate().scaleY(0.7f).scaleX(0.7f).setDuration(350).start();
                 btnPageMedicines.animate().scaleY(1).scaleX(1).setDuration(350).start();
-                dotmenu.animate().translationX(300).setDuration(350).setStartDelay(100).start();
+                //dotmenu.animate().translationX(141%).setDuration(350).setStartDelay(100).start();
+                dotmenu2.setBackgroundResource(R.drawable.dotmenu);
+                dotmenu.setBackgroundResource(R.drawable.dotmenu_unselected);
 
             }
         });
@@ -94,7 +99,8 @@ public class ReportsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr7=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr7.replace(R.id.fragment_container, new MedicinesShowFragment());
+                fr7.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                fr7.replace(R.id.fragment_container, new MedicinesViewFragment());
                 fr7.addToBackStack(null);
                 fr7.commit();
             }
@@ -104,7 +110,8 @@ public class ReportsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr8=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
-                fr8.replace(R.id.fragment_container, new ReportsShowFragment());
+                fr8.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                fr8.replace(R.id.fragment_container, new ReportsViewFragment());
                 fr8.addToBackStack(null);
                 fr8.commit();
             }

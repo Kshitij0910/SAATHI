@@ -5,6 +5,7 @@ package com.example.saathi;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -185,36 +187,39 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
             }
         });*/
 
-        final RealmHelper helper=new RealmHelper(realm);
+        if(!realm.isEmpty()) {
+            final RealmHelper helper = new RealmHelper(realm);
 
 
-        dataName=helper.retrieveName();
-        dataDob=helper.retrieveDob();
-        dataPhn=helper.retrievePhn();
-        dataBldGrp=helper.retrieveBldGrp();
-        dataIllness=helper.retrieveIllness();
-        dataAdd=helper.retrieveAddress();
-        dataPin=helper.retrievePin();
-        dataCity=helper.retrieveCity();
-        Log.d(TAG, "onCreateView: RealmHelper retrieved data");
-        info="NAME: "+ dataName.get(dataName.size()-1) +"\n\n"+
-                "DATE OF BIRTH: "+dataDob.get(dataDob.size()-1)+"\n\n"+
-                "EMERGENCY CONTACT NUMBER: "+dataPhn.get(dataPhn.size()-1)+"\n\n"+
-                "BLOOD GROUP: "+dataBldGrp.get(dataBldGrp.size()-1)+"\n\n"+
-                "MAJOR ILLNESS: "+dataIllness.get(dataIllness.size()-1)+"\n\n"+
-                "RESIDENTIAL ADDRESS: "+dataAdd.get(dataAdd.size()-1)+"\n\n"+
-                "PIN CODE: "+dataPin.get(dataPin.size()-1)+"\n\n"+
-                "CITY: "+dataCity.get(dataCity.size()-1);
-        Log.d(TAG, "onClick: Retrieved Data displaying");
-        if(dataName.size() >0)
-            display.setText(info);
-        else
-            display.setText("");
+            dataName = helper.retrieveName();
+            dataDob = helper.retrieveDob();
+            dataPhn = helper.retrievePhn();
+            dataBldGrp = helper.retrieveBldGrp();
+            dataIllness = helper.retrieveIllness();
+            dataAdd = helper.retrieveAddress();
+            dataPin = helper.retrievePin();
+            dataCity = helper.retrieveCity();
+            Log.d(TAG, "onCreateView: RealmHelper retrieved data");
+            info = "NAME: " + dataName.get(dataName.size() - 1) + "\n\n" +
+                    "DATE OF BIRTH: " + dataDob.get(dataDob.size() - 1) + "\n\n" +
+                    "EMERGENCY CONTACT NUMBER: " + dataPhn.get(dataPhn.size() - 1) + "\n\n" +
+                    "BLOOD GROUP: " + dataBldGrp.get(dataBldGrp.size() - 1) + "\n\n" +
+                    "MAJOR ILLNESS: " + dataIllness.get(dataIllness.size() - 1) + "\n\n" +
+                    "RESIDENTIAL ADDRESS: " + dataAdd.get(dataAdd.size() - 1) + "\n\n" +
+                    "PIN CODE: " + dataPin.get(dataPin.size() - 1) + "\n\n" +
+                    "CITY: " + dataCity.get(dataCity.size() - 1);
+            Log.d(TAG, "onClick: Retrieved Data displaying");
+            if (dataName.size() > 0)
+                display.setText(info);
+            else
+                display.setText("");
+        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Realm.getInstanceAsync(config, new Realm.Callback() {
+                closeKeyboard();
+                /*Realm.getInstanceAsync(config, new Realm.Callback() {
                     @Override
                     public void onSuccess(Realm realm) {
                         UserProfile userP=new UserProfile();
@@ -261,8 +266,8 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
                         display.setText(info);
                         Log.d(TAG, "onClick: Data displayed");
                     }
-                });
-                /*UserProfile userP=new UserProfile();
+                });*/
+                UserProfile userP=new UserProfile();
                 userP.setFullName(name.getText().toString());
                 userP.setDateOfBirth(selectDate.getText().toString());
                 userP.setPhoneNumber(phnNbr.getText().toString());
@@ -305,7 +310,7 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
 
                 Log.d(TAG, "onClick: Data stored");
                 display.setText(info);
-                Log.d(TAG, "onClick: Data displayed");*/
+                Log.d(TAG, "onClick: Data displayed");
 
 
 
@@ -396,6 +401,14 @@ public class AboutMeFragment extends Fragment implements DatePickerDialog.OnDate
         });
 
 
+    }
+
+    private void closeKeyboard(){
+        View v=getActivity().getCurrentFocus();
+        if (v != null){
+            InputMethodManager imm=(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }
 

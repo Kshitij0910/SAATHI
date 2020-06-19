@@ -2,6 +2,7 @@ package com.example.saathi;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -9,10 +10,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,7 +52,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class GETFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -66,8 +75,12 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     int PROXIMITY_RADIUS = 10000;
     double latitude,longitude;
 
-    Button search, hospitalBtn, parkBtn, policeBtn, chemistBtn;
+    Button search, hospitalBtn, parkBtn, policeBtn, chemistBtn, voiceLocation;
     EditText enterLocation;
+
+
+    SpeechRecognizer mSpeechRecognizer;
+    Intent mSpeechRecognizerIntent;
 
     public GETFragment(){
 
@@ -88,6 +101,13 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         policeBtn=view.findViewById(R.id.search_police);
         chemistBtn=view.findViewById(R.id.search_chemist);
         enterLocation = view.findViewById(R.id.enter_location);
+        voiceLocation=view.findViewById(R.id.voice_location);
+
+        mSpeechRecognizer=SpeechRecognizer.createSpeechRecognizer(getContext());
+        mSpeechRecognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
 
 
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -107,6 +127,85 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
         parkBtn.setOnClickListener(this);
         policeBtn.setOnClickListener(this);
         chemistBtn.setOnClickListener(this);
+
+        mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int error) {
+
+            }
+
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if(matches!=null){
+                    enterLocation.setText(matches.get(0));
+                }
+
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+
+            }
+        });
+        voiceLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Tap and hold for voice search.", Toast.LENGTH_SHORT).show();
+                voiceLocation.setHint("");
+            }
+        });
+
+
+        voiceLocation.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_UP:
+                        mSpeechRecognizer.stopListening();
+                        enterLocation.setHint("");
+                        break;
+
+                    case MotionEvent.ACTION_DOWN:
+                        enterLocation.setText("");
+                        enterLocation.setHint("Listening");
+                        mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
+                        break;
+
+                }
+                return false;
+            }
+        });
 
 
         return view;
@@ -154,6 +253,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
         switch (v.getId()) {
             case R.id.search_location:
+                closeKeyboard();
                 Toast.makeText(getActivity(), "Searching...", Toast.LENGTH_LONG).show();
                 String location = enterLocation.getText().toString();
                 List<Address> addressList = null;
@@ -184,6 +284,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
             break;
 
             case R.id.search_hospital:
+
                 hospitalBtn.setBackgroundResource(R.drawable.search_field_clicked);
                 parkBtn.setBackgroundResource(R.drawable.search_field);
                 policeBtn.setBackgroundResource(R.drawable.search_field);
@@ -338,12 +439,7 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
 
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
-            }
-            else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
-            }
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
             return false;
         }
         else
@@ -358,5 +454,15 @@ public class GETFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void closeKeyboard() {
+        View v = getActivity().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
+        }
     }
 }

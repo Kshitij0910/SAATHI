@@ -45,8 +45,8 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
         holder.textViewPrescription.setText(uploadCurrent.getPrescription());
         Picasso.get().load(uploadCurrent.getImageUrl()).placeholder(R.mipmap.pill_time).fit().centerCrop().into(holder.imgUpload);
 
-        //boolean isExpanded=uploadCurrent.isExpanded();
-        //holder.textViewPrescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        boolean isExpanded=uploadCurrent.isExpanded();
+        holder.textViewPrescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
     }
 
@@ -60,24 +60,25 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
 
         public TextView textViewPrescription;
         public ImageView imgUpload;
-        //public Button expandBtn;
+        public Button expandBtn;
 
         public UploadViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewPrescription=itemView.findViewById(R.id.view_prescription);
             imgUpload=itemView.findViewById(R.id.image_view_upload);
-            //expandBtn=itemView.findViewById(R.id.expandable_btn);
+            expandBtn=itemView.findViewById(R.id.expandable_btn);
 
-            /*expandBtn.setOnClickListener(new View.OnClickListener() {
+            expandBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Upload upload=mUpload.get(getAdapterPosition());
+
                     upload.setExpanded(!upload.isExpanded());
                     notifyItemChanged(getAdapterPosition());
-                    //expandBtn.setText("HIDE PRESCRIPTION");
+
                 }
-            });*/
+            });
 
 
             itemView.setOnClickListener(this);
@@ -98,9 +99,10 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("SELECT ACTION");
-            MenuItem delete=menu.add(Menu.NONE, 1, 1, "Delete");
+            MenuItem notify=menu.add(Menu.NONE, 1, 1, "Reminder");
+            MenuItem delete=menu.add(Menu.NONE, 2, 2, "Delete");
 
-
+            notify.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
         }
 
@@ -111,6 +113,10 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
                 if (position!=RecyclerView.NO_POSITION){
                    switch (item.getItemId()){
                        case 1:
+                           mListener.onNotifyClick(position);
+                           return true;
+
+                       case 2:
                            mListener.onDeleteClick(position);
                            return true;
                    }
@@ -122,7 +128,7 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
 
     public interface OnItemClickListener{
         void onItemClick(int position);
-
+        void onNotifyClick(int position);
 
         void onDeleteClick(int position);
     }

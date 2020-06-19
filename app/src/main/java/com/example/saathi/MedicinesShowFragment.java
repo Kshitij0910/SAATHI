@@ -2,6 +2,7 @@ package com.example.saathi;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,11 +13,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,8 +54,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -60,8 +68,8 @@ public class MedicinesShowFragment extends Fragment {
     private Button capture;
     ImageView medicine;
     EditText prescription;
-    Button uploadPrescription;
-    TextView viewUpload;
+    Button uploadPrescription, voicePrescription;
+
 
     ProgressBar load;
 
@@ -69,11 +77,14 @@ public class MedicinesShowFragment extends Fragment {
     StorageReference imgStorageReference;
     FirebaseAuth fAuth;
 
-    DatabaseReference prescriptionRef, imgDatabaseReference;
+    DatabaseReference imgDatabaseReference;
     private StorageTask mUploadTask;
     private Uri contentUri;
 
     String fName;
+
+    SpeechRecognizer mSpeechRecognizer;
+    Intent mSpeechRecognizerIntent;
 
 
 
@@ -99,7 +110,13 @@ public class MedicinesShowFragment extends Fragment {
         prescription=view.findViewById(R.id.my_prescription);
         load=view.findViewById(R.id.uploading_image);
         uploadPrescription=view.findViewById(R.id.upload_prescription);
-        viewUpload=view.findViewById(R.id.view_upload);
+        voicePrescription=view.findViewById(R.id.voice_prescription);
+
+        mSpeechRecognizer=SpeechRecognizer.createSpeechRecognizer(getContext());
+        mSpeechRecognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
 
         capture.setOnClickListener(new View.OnClickListener() {
 
@@ -119,7 +136,8 @@ public class MedicinesShowFragment extends Fragment {
          uploadPrescription.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                load.setVisibility(View.VISIBLE);
+                 closeKeyboard();
+                 load.setVisibility(View.VISIBLE);
                 if(contentUri == null){
                     load.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Please capture an image!", Toast.LENGTH_SHORT).show();
@@ -134,12 +152,91 @@ public class MedicinesShowFragment extends Fragment {
              }
          });
 
-         viewUpload.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 openMedicinesViewFragment();
-             }
-         });
+        mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int error) {
+
+            }
+
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if(matches!=null){
+                    prescription.setText(matches.get(0));
+                }
+
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+
+            }
+        });
+
+        voicePrescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Tap and hold to record prescription.", Toast.LENGTH_SHORT).show();
+                prescription.setHint("MY PRESCRIPTION");
+            }
+        });
+
+        voicePrescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        mSpeechRecognizer.stopListening();
+                        prescription.setHint("MY PRESCRIPTION");
+                        break;
+
+                    case MotionEvent.ACTION_DOWN:
+                        prescription.setText("");
+                        prescription.setHint("Listening");
+                        mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
+                        break;
+                }
+
+
+
+
+
+                return false;
+            }
+        });
+
+
+
 
 
 
@@ -334,6 +431,8 @@ public class MedicinesShowFragment extends Fragment {
                 load.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Your Medicines are uploaded!", Toast.LENGTH_SHORT).show();
 
+                openMedicinesViewFragment();
+
 
 
             }
@@ -352,11 +451,21 @@ public class MedicinesShowFragment extends Fragment {
 
     private void openMedicinesViewFragment(){
         FragmentTransaction fr6=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
+        fr6.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
         fr6.replace(R.id.fragment_container, new MedicinesViewFragment());
         fr6.addToBackStack(null);
         fr6.commit();
     }
 
+    private void closeKeyboard() {
+        View v = getActivity().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
+        }
+    }
 
 }
 

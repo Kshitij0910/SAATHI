@@ -17,11 +17,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -43,21 +45,28 @@ import java.util.List;
 
 public class NearbyPlaces extends AppCompatActivity {
 
-    CardView fullScrnImage;
+    PhotoView fullScrnImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_places);
 
-        /*fullScrnImage=findViewById(R.id.full_scr);
+        fullScrnImage=findViewById(R.id.full_scr_img);
         Intent callingActivityIntent=getIntent();
         if (callingActivityIntent!= null){
             Uri imageUri=callingActivityIntent.getData();
             if (imageUri != null && fullScrnImage != null){
-                Picasso.get().load(imageUri).into((Target) fullScrnImage);
+                Picasso.get().load(imageUri).into(fullScrnImage);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Pinch or Double tap to zoom!", Toast.LENGTH_SHORT).show();
+                    }
+                }, 2000);
+
             }
-        }*/
+        }
 
 
     }

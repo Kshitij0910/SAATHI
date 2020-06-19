@@ -22,6 +22,8 @@
             android:background="@drawable/search_field_2"
             android:drawableEnd="@drawable/ic_search_black"
             android:drawableRight="@drawable/ic_search_black"
+            android:drawableLeft="@drawable/ic_voice_3"
+            android:drawableStart="@drawable/ic_voice_3"
             android:drawablePadding="10dp"
             android:padding="10dp"
             android:textSize="24sp" />
@@ -37,7 +39,21 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/search"
             android:elevation="20dp"
-            android:padding="10dp" />
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/voice_location"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/voice"
+            android:elevation="20dp"
+            android:padding="10dp"/>
+
 
         <HorizontalScrollView
             android:id="@+id/quick_search"

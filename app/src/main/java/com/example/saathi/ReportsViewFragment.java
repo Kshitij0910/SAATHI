@@ -15,10 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +47,8 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
     private ProgressBar loadUpload2;
     FirebaseAuth fAuth;
 
+    FloatingActionButton addReport;
+
 
     @Nullable
     @Override
@@ -59,6 +63,8 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        addReport=view.findViewById(R.id.add_reports);
+
         recyclerView = view.findViewById(R.id.recycler_view_2);
 
 
@@ -80,6 +86,8 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
         mStorage = FirebaseStorage.getInstance();
         mDataRef = FirebaseDatabase.getInstance().getReference("Reports/users/" + fAuth.getCurrentUser().getUid());
         Log.d("ReportsViewFragment", "onViewCreated: "+mDataRef);
+
+
 
         mDBListenerRep = mDataRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -103,6 +111,19 @@ public class ReportsViewFragment extends Fragment implements UploadAdapter2.OnIt
                 loadUpload2.setVisibility(View.INVISIBLE);
             }
         });
+
+        addReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fr4=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr4.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                fr4.replace(R.id.fragment_container, new ReportsShowFragment());
+                fr4.addToBackStack(null);
+                fr4.commit();
+            }
+        });
+
+
 
         /*mDataRef.addChildEventListener(new ChildEventListener() {
             @Override

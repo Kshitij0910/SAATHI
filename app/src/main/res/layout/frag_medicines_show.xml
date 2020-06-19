@@ -11,26 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/view_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/search_field"
-            android:drawableRight="@drawable/ic_go_to"
-            android:drawableEnd="@drawable/ic_go_to"
-            android:elevation="20dp" />
+
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/imag_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/view_upload"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp"
@@ -40,8 +28,9 @@
                 android:id="@+id/my_medicine"
                 android:layout_width="400dp"
                 android:layout_height="250dp"
-                android:layout_below="@id/view_upload"
+
                 android:layout_gravity="center"
+
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:elevation="20dp"
@@ -53,9 +42,9 @@
             android:id="@+id/upload_prescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/my_prescription"
+            android:layout_below="@id/capture_photo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/ripple_effect_2"
             android:elevation="20dp"
             android:padding="10dp"
@@ -79,6 +68,22 @@
             android:padding="10dp"
             android:textSize="24sp" />
 
+        <Button
+            android:id="@+id/voice_prescription"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/my_prescription"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/ic_voice"
+            android:elevation="20dp"
+            android:padding="10dp"/>
+
+
+
         <ProgressBar
             android:id="@+id/uploading_image"
             android:layout_width="wrap_content"
@@ -92,9 +97,9 @@
             android:id="@+id/capture_photo"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_below="@+id/upload_prescription"
+            android:layout_below="@+id/my_prescription"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/capture"
             android:elevation="20dp"
             android:padding="10dp"

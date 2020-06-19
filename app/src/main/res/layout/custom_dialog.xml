@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_voice_2"
+        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:elevation="20dp"/>
+
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/voice"
+        android:layout_marginTop="10dp"
+        android:text="TRY ANY OF THESE COMMANDS TO NAVIGATE TO RESPECTIVE PAGE."
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/instruction"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line4">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/command_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="1) MY MEDICINE"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/command_1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="2) MY REPORT"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/command_2"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="3) PLACES NEAR ME"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/command_3"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="4) DO YOGA"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/command_4"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="5) GO FOR A WALK"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/command_5"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="6) FOOD"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/command_6"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="7) VIEW MEDICINE"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/command_7"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="8) VIEW REPORT"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/command_8"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="9) ADD MEDICINE"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/command_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/command_9"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="10) ADD REPORT"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+</RelativeLayout>

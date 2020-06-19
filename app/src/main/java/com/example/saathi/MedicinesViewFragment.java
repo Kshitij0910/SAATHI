@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,9 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,13 +58,16 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     private ProgressBar loadUpload;
     FirebaseAuth fAuth;
 
-    FloatingActionButton notification, notificationCancel;
+    FloatingActionButton addMedicines;
+
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_view_medicines, container, false);
+
 
 
 
@@ -73,12 +79,13 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        notification=view.findViewById(R.id.notification);
-        notificationCancel=view.findViewById(R.id.notification_cancel);
+
+        addMedicines=view.findViewById(R.id.add_medicines);
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
         loadUpload = view.findViewById(R.id.load_upload);
+
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -111,12 +118,13 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
                 mAdapter.notifyDataSetChanged();
 
                 loadUpload.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                loadUpload.setVisibility(View.INVISIBLE);
+                    loadUpload.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -124,21 +132,18 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
 
 
 
-        notification.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+        addMedicines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newTimeFragment=new TimePickerFragment();
-                newTimeFragment.setTargetFragment(MedicinesViewFragment.this, 0);
-                newTimeFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-
-
-            }
-        });
-
-        notificationCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelAlarm();
+                FragmentTransaction fr4=getFragmentManager().beginTransaction(); //getFragmentManager is deprecated
+                fr4.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                fr4.replace(R.id.fragment_container, new MedicinesShowFragment());
+                fr4.addToBackStack(null);
+                fr4.commit();
             }
         });
     }
@@ -146,12 +151,36 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getActivity(),"Tap and Hold for further actions!", Toast.LENGTH_SHORT).show();
-        /*Upload selectedItem=mUpload.get(position);
+        Upload selectedItem=mUpload.get(position);
         Uri imageUri=Uri.parse(selectedItem.getImageUrl());
         Intent fullScreenIntent=new Intent(getContext(),NearbyPlaces.class);
         fullScreenIntent.setData(imageUri);
-        startActivity(fullScreenIntent);*/
+        startActivity(fullScreenIntent);
     }
+
+    @Override
+    public void onNotifyClick(int position){
+        Upload selectedItem=mUpload.get(position);
+         String selectedKey=selectedItem.getKey();
+        SharedPreferences keyPrefs;
+        keyPrefs=getActivity().getSharedPreferences("KEY", Context.MODE_PRIVATE);
+        //int channel=keyPrefs.getInt("Channel", 0);
+
+        //Save data
+        SharedPreferences.Editor editor=keyPrefs.edit();
+        editor.putInt("Channel", position);
+        editor.apply();
+
+        Intent activityIntent=new Intent(getContext(), AlarmActivity.class);
+        //activityIntent.putExtra("KEY", selectedKey);
+        //Intent keyIntent=new Intent(getContext(), NotificationHelper.class);
+        //keyIntent.putExtra("selectedKey", selectedKey);
+
+
+        startActivity(activityIntent);
+
+    }
+
 
 
 
@@ -212,6 +241,7 @@ public class MedicinesViewFragment extends Fragment implements UploadAdapter.OnI
 
 
     }
+
 
 
 

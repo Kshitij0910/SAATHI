@@ -44,7 +44,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ReportsShowFragment extends Fragment {
     Button selectFile, upload;
-    TextView file, gotoReports;
+    TextView file;
 
     StorageReference mStorageRef;
     DatabaseReference mDatabaseRef;
@@ -70,7 +70,7 @@ public class ReportsShowFragment extends Fragment {
         file=view.findViewById(R.id.file);
         upload=view.findViewById(R.id.report_upload);
         loadReport=view.findViewById(R.id.load_report);
-        gotoReports=view.findViewById(R.id.show_reports);
+
 
         fAuth=FirebaseAuth.getInstance();
         mStorageRef= FirebaseStorage.getInstance().getReference("Reports");
@@ -103,16 +103,7 @@ public class ReportsShowFragment extends Fragment {
             }
         });
 
-        gotoReports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fr9=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
-                fr9.replace(R.id.fragment_container, new ReportsViewFragment());
-                fr9.addToBackStack(null);
-                fr9.commit();
 
-            }
-        });
 
 
         return view;
@@ -223,6 +214,12 @@ public class ReportsShowFragment extends Fragment {
                 });
                 loadReport.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Your Reports are Uploaded!", Toast.LENGTH_SHORT).show();
+
+                FragmentTransaction fr9=getFragmentManager().beginTransaction();//getFragmentManager is deprecated
+                fr9.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                fr9.replace(R.id.fragment_container, new ReportsViewFragment());
+                fr9.addToBackStack(null);
+                fr9.commit();
 
 
             }

@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".MyApplication"
@@ -23,7 +25,16 @@
         android:roundIcon="@mipmap/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".AlarmActivity"></activity>
+        <activity
+            android:name=".AddReminderActivity"
+            android:label="Add reminder"
+            android:parentActivityName=".ReminderListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ReminderListActivity" />
+        </activity>
+        <activity android:name=".ReminderListActivity" />
         <activity
             android:name=".WelcomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
@@ -48,7 +59,6 @@
         <activity
             android:name=".NearbyPlaces"
             android:label="@string/title_activity_nearby_places" />
-
         <activity
             android:name=".Register"
             android:theme="@style/AppTheme.NoActionBar">
@@ -63,6 +73,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
@@ -74,12 +85,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <provider
+            android:name=".data.AlarmReminderProvider"
+            android:authorities="com.example.saathi"
+            android:exported="false" />
+
+        <service
+            android:name=".reminder.ReminderAlarmService"
+            android:exported="false" />
+
+        <receiver android:name=".NotificationReceiver"/>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>

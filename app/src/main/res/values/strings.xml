@@ -33,4 +33,6 @@
     <string name="parks">PARKS</string>
     <string name="police_station">POLICE STATION</string>
     <string name="chemist">CHEMIST</string>
+    <string name="my_medicines">MY MEDICINES</string>
+    <string name="my_reports">MY REPORTS</string>
 </resources>

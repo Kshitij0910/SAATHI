@@ -17,9 +17,16 @@
     <item android:title="COMMUNICATE">
         <menu>
             <item
+                android:id="@+id/nav_voice"
+                android:icon="@drawable/ic_voice"
+                android:title="VOICE COMMANDS"/>
+
+            <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
                 android:title="LOGOUT" />
+
+
         </menu>
     </item>
 
